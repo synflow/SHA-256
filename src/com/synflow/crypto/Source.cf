@@ -1,0 +1,25 @@
+/*
+ * Copyright (c) 2013 Matthieu
+ * All rights reserved.
+ */
+
+/*
+ * Input and output ports
+ */
+port out sync u32 stimulus;
+
+void init() {
+	stimulus.write(0x61626380);
+	u6 i;
+	for (i = 0; i < 14; i++) {
+		stimulus.write(0);
+	}
+	
+	stimulus.write(0x18);
+}
+
+/**
+ * Task
+ */
+void main() {
+}
