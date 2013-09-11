@@ -2,35 +2,12 @@
  * Copyright (c) 2013 Matthieu
  * All rights reserved.
  */
+import SHAFunctions.{Ch, Maj, lcSigma0, lcSigma1, ucSigma0, ucSigma1};
 
 /*
  * Input and output ports
  */
 port in sync u32 msg, out sync u256 hash;
-
-u32 Ch(u32 x, u32 y, u32 z) {
-	return (x & y) ^ (~x & z);
-}
-
-u32 Maj(u32 x, u32 y, u32 z) {
-	return (x & y) ^ (x & z) ^ (y & z);
-}
-
-u32 sigmaBig0(u32 x) {
-	return ((x >> 2) | (x << 30)) ^ ((x >> 13) | (x << 19)) ^ ((x >> 22) | (x << 10));
-}
-
-u32 sigmaBig1(u32 x) {
-	return ((x >> 6) | (x << 26)) ^ ((x >> 11) | (x << 21)) ^ ((x >> 25) | (x << 7));
-}
-
-u32 sigma0(u32 x) {
-	return ((x >> 7) | (x << 25)) ^ ((x >> 18) | (x << 14)) ^ (x >> 3);
-}
-
-u32 sigma1(u32 x) {
-	return ((x >> 17) | (x << 15)) ^ ((x >> 19) | (x << 13)) ^ (x >> 10);
-}
 
 u32 H_i[8];
 
@@ -60,7 +37,7 @@ void main() {
 	}
 	
 	for (; t < 64; t++) {
-		W[t] = sigma1(W[t - 2]) + W[t - 7] + sigma0(W[t - 15]) + W[t - 16];
+		W[t] = lcSigma1(W[t - 2]) + W[t - 7] + lcSigma0(W[t - 15]) + W[t - 16];
 	}
 
 	H_i[0] = 0x6a09e667;
@@ -82,8 +59,8 @@ void main() {
 	h = H_i[7];
 
 	for (t = 0; t < 64; t++) {
-		u32 T1 = h + sigmaBig1(e) + Ch(e, f, g) + K[t] + W[t];
-		u32 T2 = sigmaBig0(a) + Maj(a, b, c);
+		u32 T1 = h + ucSigma1(e) + Ch(e, f, g) + K[t] + W[t];
+		u32 T2 = ucSigma0(a) + Maj(a, b, c);
 		h = g;
 		g = f;
 		f = e;

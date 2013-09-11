@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) 2013 Matthieu
+ * All rights reserved.
+ */
+
+u32 Ch(u32 x, u32 y, u32 z) {
+	return (x & y) ^ (~x & z);
+}
+
+u32 Maj(u32 x, u32 y, u32 z) {
+	return (x & y) ^ (x & z) ^ (y & z);
+}
+
+u32 lcSigma0(u32 x) {
+	return ((x >> 7) | (x << 25)) ^ ((x >> 18) | (x << 14)) ^ (x >> 3);
+}
+
+u32 lcSigma1(u32 x) {
+	return ((x >> 17) | (x << 15)) ^ ((x >> 19) | (x << 13)) ^ (x >> 10);
+}
+
+
+u32 ucSigma0(u32 x) {
+	return ((x >> 2) | (x << 30)) ^ ((x >> 13) | (x << 19)) ^ ((x >> 22) | (x << 10));
+}
+
+u32 ucSigma1(u32 x) {
+	return ((x >> 6) | (x << 26)) ^ ((x >> 11) | (x << 21)) ^ ((x >> 25) | (x << 7));
+}

@@ -18,6 +18,8 @@ use ieee.numeric_std.all;
 library std;
 use std.textio.all;
 
+library work;
+use work.SHAFunctions.all;
 
 -------------------------------------------------------------------------------
 entity SHA256 is
@@ -58,49 +60,6 @@ architecture rtl_SHA256 of SHA256 is
   signal W : W_type;
   constant K : K_type := (x"428a2f98", x"71374491", x"b5c0fbcf", x"e9b5dba5", x"3956c25b", x"59f111f1", x"923f82a4", x"ab1c5ed5", x"d807aa98", x"12835b01", x"243185be", x"550c7dc3", x"72be5d74", x"80deb1fe", x"9bdc06a7", x"c19bf174", x"e49b69c1", x"efbe4786", x"0fc19dc6", x"240ca1cc", x"2de92c6f", x"4a7484aa", x"5cb0a9dc", x"76f988da", x"983e5152", x"a831c66d", x"b00327c8", x"bf597fc7", x"c6e00bf3", x"d5a79147", x"06ca6351", x"14292967", x"27b70a85", x"2e1b2138", x"4d2c6dfc", x"53380d13", x"650a7354", x"766a0abb", x"81c2c92e", x"92722c85", x"a2bfe8a1", x"a81a664b", x"c24b8b70", x"c76c51a3", x"d192e819", x"d6990624", x"f40e3585", x"106aa070", x"19a4c116", x"1e376c08", x"2748774c", x"34b0bcb5", x"391c0cb3", x"4ed8aa4a", x"5b9cca4f", x"682e6ff3", x"748f82ee", x"78a5636f", x"84c87814", x"8cc70208", x"90befffa", x"a4506ceb", x"bef9a3f7", x"c67178f2");
 
-  -----------------------------------------------------------------------------
-  -- Declaration of functions
-  -----------------------------------------------------------------------------
-  impure function Ch(x : unsigned; y : unsigned; z : unsigned) return unsigned;
-  impure function Maj(x : unsigned; y : unsigned; z : unsigned) return unsigned;
-  impure function sigmaBig0(x : unsigned) return unsigned;
-  impure function sigmaBig1(x : unsigned) return unsigned;
-  impure function sigma0(x : unsigned) return unsigned;
-  impure function sigma1(x : unsigned) return unsigned;
-
-  -----------------------------------------------------------------------------
-  -- Implementation of functions
-  -----------------------------------------------------------------------------
-  impure function Ch(x : unsigned; y : unsigned; z : unsigned) return unsigned is
-  begin
-    return (((x) and (y)) xor ((not ((x))) and (z)));
-  end Ch;
-  
-  impure function Maj(x : unsigned; y : unsigned; z : unsigned) return unsigned is
-  begin
-    return ((((x) and (y)) xor ((x) and (z))) xor ((y) and (z)));
-  end Maj;
-  
-  impure function sigmaBig0(x : unsigned) return unsigned is
-  begin
-    return resize(((resize(x(31 downto 2), 62) or ((x & "000000000000000000000000000000"))) xor resize(resize(x(31 downto 13), 51) or ((x & "0000000000000000000")), 62)) xor resize(resize(x(31 downto 22), 42) or ((x & "0000000000")), 62), 32);
-  end sigmaBig0;
-  
-  impure function sigmaBig1(x : unsigned) return unsigned is
-  begin
-    return resize(((resize(x(31 downto 6), 58) or ((x & "00000000000000000000000000"))) xor resize(resize(x(31 downto 11), 53) or ((x & "000000000000000000000")), 58)) xor resize(resize(x(31 downto 25), 39) or ((x & "0000000")), 58), 32);
-  end sigmaBig1;
-  
-  impure function sigma0(x : unsigned) return unsigned is
-  begin
-    return resize(((resize(x(31 downto 7), 57) or ((x & "0000000000000000000000000"))) xor resize(resize(x(31 downto 18), 46) or ((x & "00000000000000")), 57)) xor resize(x(31 downto 3), 57), 32);
-  end sigma0;
-  
-  impure function sigma1(x : unsigned) return unsigned is
-  begin
-    return resize(((resize(x(31 downto 17), 47) or ((x & "000000000000000"))) xor resize(resize(x(31 downto 19), 45) or ((x & "0000000000000")), 47)) xor resize(x(31 downto 10), 47), 32);
-  end sigma1;
-  
 
   -----------------------------------------------------------------------------
   -- FSM
@@ -111,7 +70,7 @@ architecture rtl_SHA256 of SHA256 is
   -----------------------------------------------------------------------------
   -- Behavior
   -----------------------------------------------------------------------------
-  -- Scheduler of SHA256_1_a (line 58)
+  -- Scheduler of SHA256_1_a (line 35)
   impure function isSchedulable_SHA256_1_a return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -119,7 +78,7 @@ architecture rtl_SHA256 of SHA256 is
     return to_std_logic((local_t) < "0010000");
   end function isSchedulable_SHA256_1_a;
   
-  -- Scheduler of SHA256_1_b (line 61)
+  -- Scheduler of SHA256_1_b (line 38)
   impure function isSchedulable_SHA256_1_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -127,7 +86,7 @@ architecture rtl_SHA256 of SHA256 is
     return (not (to_std_logic((local_t) < "0010000")));
   end function isSchedulable_SHA256_1_b;
   
-  -- Scheduler of SHA256_2_a (line 63)
+  -- Scheduler of SHA256_2_a (line 40)
   impure function isSchedulable_SHA256_2_a return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -135,7 +94,7 @@ architecture rtl_SHA256 of SHA256 is
     return to_std_logic((local_t) < "1000000");
   end function isSchedulable_SHA256_2_a;
   
-  -- Scheduler of SHA256_2_b (line 65)
+  -- Scheduler of SHA256_2_b (line 42)
   impure function isSchedulable_SHA256_2_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -143,7 +102,7 @@ architecture rtl_SHA256 of SHA256 is
     return (not (to_std_logic((local_t) < "1000000")));
   end function isSchedulable_SHA256_2_b;
   
-  -- Scheduler of SHA256_3_a (line 85)
+  -- Scheduler of SHA256_3_a (line 62)
   impure function isSchedulable_SHA256_3_a return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -151,7 +110,7 @@ architecture rtl_SHA256 of SHA256 is
     return to_std_logic((local_t) < "1000000");
   end function isSchedulable_SHA256_3_a;
   
-  -- Scheduler of SHA256_3_b (line 96)
+  -- Scheduler of SHA256_3_b (line 73)
   impure function isSchedulable_SHA256_3_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -169,10 +128,10 @@ begin
     variable local_msg : unsigned(31 downto 0);
     variable local_t : unsigned(6 downto 0);
     variable local_W : unsigned(31 downto 0);
-    variable call_sigma1 : unsigned(31 downto 0);
+    variable call_lcSigma1 : unsigned(31 downto 0);
     variable local_W0 : unsigned(31 downto 0);
     variable local_W1 : unsigned(31 downto 0);
-    variable call_sigma0 : unsigned(31 downto 0);
+    variable call_lcSigma0 : unsigned(31 downto 0);
     variable local_W2 : unsigned(31 downto 0);
     variable local_H_i : unsigned(31 downto 0);
     variable local_H_i0 : unsigned(31 downto 0);
@@ -185,14 +144,14 @@ begin
     variable T1 : unsigned(31 downto 0);
     variable local_h : unsigned(31 downto 0);
     variable local_e : unsigned(31 downto 0);
-    variable call_sigmaBig1 : unsigned(31 downto 0);
+    variable call_ucSigma1 : unsigned(31 downto 0);
     variable local_f : unsigned(31 downto 0);
     variable local_g : unsigned(31 downto 0);
     variable call_Ch : unsigned(31 downto 0);
     variable local_K : unsigned(31 downto 0);
     variable T2 : unsigned(31 downto 0);
     variable local_a : unsigned(31 downto 0);
-    variable call_sigmaBig0 : unsigned(31 downto 0);
+    variable call_ucSigma0 : unsigned(31 downto 0);
     variable local_b : unsigned(31 downto 0);
     variable local_c : unsigned(31 downto 0);
     variable call_Maj : unsigned(31 downto 0);
@@ -238,14 +197,14 @@ begin
       case FSM is
         when s_SHA256_0 =>
           if to_boolean('1') then
-            -- Body of SHA256_0 (line 57)
+            -- Body of SHA256_0 (line 34)
             t <= "0000000";
             FSM <= s_SHA256_1;
           end if;
         
         when s_SHA256_1 =>
           if to_boolean(msg_send and isSchedulable_SHA256_1_a) then
-            -- Body of SHA256_1_a (line 58)
+            -- Body of SHA256_1_a (line 35)
             msg_in := unsigned(msg);
             local_t := t;
             local_msg := msg_in;
@@ -262,26 +221,26 @@ begin
             t <= (local_t);
             FSM <= s_SHA256_1;
           elsif to_boolean(isSchedulable_SHA256_1_b) then
-            -- Body of SHA256_1_b (line 61)
+            -- Body of SHA256_1_b (line 38)
             FSM <= s_SHA256_2;
           end if;
         
         when s_SHA256_2 =>
           if to_boolean(isSchedulable_SHA256_2_a) then
-            -- Body of SHA256_2_a (line 63)
+            -- Body of SHA256_2_a (line 40)
             local_t := t;
             local_W := W(to_integer(resize(resize(local_t, 8) - x"02", 6)));
-            call_sigma1 := resize(sigma1((local_W)), 32);
+            call_lcSigma1 := resize(lcSigma1((local_W)), 32);
             local_W0 := W(to_integer(resize(resize(local_t, 8) - x"07", 6)));
             local_W1 := W(to_integer(resize(resize(local_t, 8) - x"0f", 6)));
-            call_sigma0 := resize(sigma0((local_W1)), 32);
+            call_lcSigma0 := resize(lcSigma0((local_W1)), 32);
             local_W2 := W(to_integer(resize(resize(local_t, 8) - x"10", 6)));
-            W(to_integer(resize(local_t, 6)))  <= resize(resize(resize(resize(call_sigma1, 33) + resize(local_W0, 33), 34) + resize(call_sigma0, 34), 35) + resize(local_W2, 35), 32);
+            W(to_integer(resize(local_t, 6)))  <= resize(resize(resize(resize(call_lcSigma1, 33) + resize(local_W0, 33), 34) + resize(call_lcSigma0, 34), 35) + resize(local_W2, 35), 32);
             local_t := resize(resize(local_t, 8) + x"01", 7);
             t <= (local_t);
             FSM <= s_SHA256_2;
           elsif to_boolean(isSchedulable_SHA256_2_b) then
-            -- Body of SHA256_2_b (line 65)
+            -- Body of SHA256_2_b (line 42)
             H_i(to_integer(to_unsigned(0, 3)))  <= x"6a09e667";
             H_i(to_integer(to_unsigned(1, 3)))  <= x"bb67ae85";
             H_i(to_integer(to_unsigned(2, 3)))  <= x"3c6ef372";
@@ -312,24 +271,24 @@ begin
         
         when s_SHA256_3 =>
           if to_boolean(isSchedulable_SHA256_3_a) then
-            -- Body of SHA256_3_a (line 85)
-            local_g := g;
-            local_c := c;
+            -- Body of SHA256_3_a (line 62)
             local_h := h;
-            local_a := a;
-            local_b := b;
             local_e := e;
-            local_t := t;
-            local_f := f;
+            local_c := c;
             local_d := d;
-            call_sigmaBig1 := resize(sigmaBig1((local_e)), 32);
+            local_a := a;
+            local_t := t;
+            local_g := g;
+            local_f := f;
+            local_b := b;
+            call_ucSigma1 := resize(ucSigma1((local_e)), 32);
             call_Ch := resize(Ch((local_e), (local_f), (local_g)), 32);
             local_K := K(to_integer(resize(local_t, 6)));
             local_W := W(to_integer(resize(local_t, 6)));
-            T1 := resize(resize(resize(resize(resize(local_h, 33) + resize(call_sigmaBig1, 33), 34) + resize(call_Ch, 34), 35) + resize(local_K, 35), 36) + resize(local_W, 36), 32);
-            call_sigmaBig0 := resize(sigmaBig0((local_a)), 32);
+            T1 := resize(resize(resize(resize(resize(local_h, 33) + resize(call_ucSigma1, 33), 34) + resize(call_Ch, 34), 35) + resize(local_K, 35), 36) + resize(local_W, 36), 32);
+            call_ucSigma0 := resize(ucSigma0((local_a)), 32);
             call_Maj := resize(Maj((local_a), (local_b), (local_c)), 32);
-            T2 := resize(resize(call_sigmaBig0, 33) + resize(call_Maj, 33), 32);
+            T2 := resize(resize(call_ucSigma0, 33) + resize(call_Maj, 33), 32);
             local_h := (local_g);
             local_g := (local_f);
             local_f := (local_e);
@@ -339,26 +298,26 @@ begin
             local_b := (local_a);
             local_a := resize(resize(T1, 33) + resize(T2, 33), 32);
             local_t := resize(resize(local_t, 8) + x"01", 7);
-            g <= (local_g);
-            c <= (local_c);
             h <= (local_h);
-            a <= (local_a);
-            b <= (local_b);
             e <= (local_e);
-            t <= (local_t);
-            f <= (local_f);
+            c <= (local_c);
             d <= (local_d);
+            a <= (local_a);
+            t <= (local_t);
+            g <= (local_g);
+            f <= (local_f);
+            b <= (local_b);
             FSM <= s_SHA256_3;
           elsif to_boolean(isSchedulable_SHA256_3_b) then
-            -- Body of SHA256_3_b (line 96)
-            local_g := g;
-            local_c := c;
+            -- Body of SHA256_3_b (line 73)
             local_h := h;
-            local_a := a;
-            local_b := b;
             local_e := e;
-            local_f := f;
+            local_c := c;
             local_d := d;
+            local_g := g;
+            local_a := a;
+            local_f := f;
+            local_b := b;
             local_H_i := H_i(to_integer(to_unsigned(0, 3)));
             H_i(to_integer(to_unsigned(0, 3)))  <= resize(resize(local_H_i, 33) + resize(local_a, 33), 32);
             local_H_i0 := H_i(to_integer(to_unsigned(1, 3)));
