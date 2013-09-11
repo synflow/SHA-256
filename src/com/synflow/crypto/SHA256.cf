@@ -53,10 +53,6 @@ const u32 K[64] = {
 /**
  * Task
  */
-@Test(
-	msg = {0x61626380, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x00000018},
-	hash = {0xBA7816BF_8F01CFEA_414140DE_5DAE2223_B00361A3_96177A9C_B410FF61_F20015AD}
-)
 void main() {
 	for (t = 0; t < 16; t++) {
 		W[t] = msg.read;
