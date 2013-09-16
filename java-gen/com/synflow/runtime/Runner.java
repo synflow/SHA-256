@@ -109,8 +109,13 @@ public class Runner {
 	}
 
 	private void doSimulationText() throws IOException {
-		StimulusFile stimFile = new StimulusFile("stimSigNames.txt",
-				"stimSigValues.txt", entity.getInputs());
+		StimulusFile stimFile = null;
+		if (Files.exists(Paths.get("stimSigNames.txt"))) {
+			stimFile = new StimulusFile("stimSigNames.txt",
+					"stimSigValues.txt", entity.getInputs());
+		} else {
+			System.out.println("Running without stimulus...");
+		}
 
 		StimulusFile expectedFile = null;
 		TraceFile traceFile = null;
@@ -123,10 +128,12 @@ public class Runner {
 		}
 
 		for (int _cycle = 0; _cycle < numCycles; _cycle++) {
-			if (stimFile.hasNext()) {
-				stimFile.readLine();
+			if (stimFile != null) {
+				if (stimFile.hasNext()) {
+					stimFile.readLine();
+				}
+				stimFile.commit();
 			}
-			stimFile.commit();
 
 			if (createVcd) {
 				writer.setTimestamp(_cycle);
