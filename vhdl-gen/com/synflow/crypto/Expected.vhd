@@ -18,6 +18,8 @@ use ieee.numeric_std.all;
 library std;
 use std.textio.all;
 
+library work;
+use work.Helper_functions.all;
 
 -------------------------------------------------------------------------------
 entity Expected is
@@ -33,9 +35,6 @@ end Expected;
 
 -------------------------------------------------------------------------------
 architecture rtl_Expected of Expected is
-
-  function to_boolean(b : std_logic) return boolean is begin return b = '1'; end;
-  function to_std_logic(b : boolean) return std_logic is begin if b then return '1'; else return '0'; end if; end;
 
   -----------------------------------------------------------------------------
   -- Signal(s) and Constant(s)
@@ -74,11 +73,9 @@ begin
             hash_in := unsigned(hash);
             local_hash := hash_in;
             dut_hash := (local_hash);
-            -- rtl_synthesis off
             write(output, "read hash from dut: "
-             & to_hstring(to_bitvector(std_logic_vector((dut_hash))))
+             & to_hstring_93(to_bitvector(std_logic_vector((dut_hash))))
              & LF);
-            -- rtl_synthesis on
             assert (dut_hash) = x"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" report "(dut_hash) = x'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'" severity failure;
             FSM <= s_Expected_1;
           end if;

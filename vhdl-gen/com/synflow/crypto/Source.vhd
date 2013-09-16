@@ -18,6 +18,8 @@ use ieee.numeric_std.all;
 library std;
 use std.textio.all;
 
+library work;
+use work.Helper_functions.all;
 
 -------------------------------------------------------------------------------
 entity Source is
@@ -33,9 +35,6 @@ end Source;
 
 -------------------------------------------------------------------------------
 architecture rtl_Source of Source is
-
-  function to_boolean(b : std_logic) return boolean is begin return b = '1'; end;
-  function to_std_logic(b : boolean) return std_logic is begin if b then return '1'; else return '0'; end if; end;
 
   -----------------------------------------------------------------------------
   -- Signal(s) and Constant(s)

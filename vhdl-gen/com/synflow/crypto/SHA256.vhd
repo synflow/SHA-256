@@ -19,6 +19,7 @@ library std;
 use std.textio.all;
 
 library work;
+use work.Helper_functions.all;
 use work.SHAFunctions.all;
 
 -------------------------------------------------------------------------------
@@ -37,9 +38,6 @@ end SHA256;
 
 -------------------------------------------------------------------------------
 architecture rtl_SHA256 of SHA256 is
-
-  function to_boolean(b : std_logic) return boolean is begin return b = '1'; end;
-  function to_std_logic(b : boolean) return std_logic is begin if b then return '1'; else return '0'; end if; end;
 
   -----------------------------------------------------------------------------
   -- Signal(s) and Constant(s)
@@ -210,13 +208,11 @@ begin
             local_msg := msg_in;
             W(to_integer(resize(local_t, 6)))  <= (local_msg);
             local_W := W(to_integer(resize(local_t, 6)));
-            -- rtl_synthesis off
             write(output, "W["
-             & to_hstring(to_bitvector(std_logic_vector((local_t))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_t))))
              & "] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_W))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_W))))
              & LF);
-            -- rtl_synthesis on
             local_t := resize(resize(local_t, 8) + x"01", 7);
             t <= (local_t);
             FSM <= s_SHA256_1;
@@ -272,15 +268,15 @@ begin
         when s_SHA256_3 =>
           if to_boolean(isSchedulable_SHA256_3_a) then
             -- Body of SHA256_3_a (line 62)
-            local_h := h;
-            local_e := e;
-            local_c := c;
             local_d := d;
-            local_a := a;
-            local_t := t;
-            local_g := g;
-            local_f := f;
+            local_c := c;
             local_b := b;
+            local_a := a;
+            local_f := f;
+            local_g := g;
+            local_h := h;
+            local_t := t;
+            local_e := e;
             call_ucSigma1 := resize(ucSigma1((local_e)), 32);
             call_Ch := resize(Ch((local_e), (local_f), (local_g)), 32);
             local_K := K(to_integer(resize(local_t, 6)));
@@ -298,26 +294,26 @@ begin
             local_b := (local_a);
             local_a := resize(resize(T1, 33) + resize(T2, 33), 32);
             local_t := resize(resize(local_t, 8) + x"01", 7);
-            h <= (local_h);
-            e <= (local_e);
-            c <= (local_c);
             d <= (local_d);
-            a <= (local_a);
-            t <= (local_t);
-            g <= (local_g);
-            f <= (local_f);
+            c <= (local_c);
             b <= (local_b);
+            a <= (local_a);
+            f <= (local_f);
+            g <= (local_g);
+            h <= (local_h);
+            t <= (local_t);
+            e <= (local_e);
             FSM <= s_SHA256_3;
           elsif to_boolean(isSchedulable_SHA256_3_b) then
             -- Body of SHA256_3_b (line 73)
-            local_h := h;
-            local_e := e;
-            local_c := c;
             local_d := d;
-            local_g := g;
-            local_a := a;
+            local_c := c;
             local_f := f;
             local_b := b;
+            local_a := a;
+            local_g := g;
+            local_h := h;
+            local_e := e;
             local_H_i := H_i(to_integer(to_unsigned(0, 3)));
             H_i(to_integer(to_unsigned(0, 3)))  <= resize(resize(local_H_i, 33) + resize(local_a, 33), 32);
             local_H_i0 := H_i(to_integer(to_unsigned(1, 3)));
@@ -335,53 +331,37 @@ begin
             local_H_i6 := H_i(to_integer(to_unsigned(7, 3)));
             H_i(to_integer(to_unsigned(7, 3)))  <= resize(resize(local_H_i6, 33) + resize(local_h, 33), 32);
             local_H_i7 := H_i(to_integer(to_unsigned(0, 3)));
-            -- rtl_synthesis off
             write(output, "H_i[0] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_H_i7))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i7))))
              & LF);
-            -- rtl_synthesis on
             local_H_i8 := H_i(to_integer(to_unsigned(1, 3)));
-            -- rtl_synthesis off
             write(output, "H_i[1] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_H_i8))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i8))))
              & LF);
-            -- rtl_synthesis on
             local_H_i9 := H_i(to_integer(to_unsigned(2, 3)));
-            -- rtl_synthesis off
             write(output, "H_i[2] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_H_i9))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i9))))
              & LF);
-            -- rtl_synthesis on
             local_H_i10 := H_i(to_integer(to_unsigned(3, 3)));
-            -- rtl_synthesis off
             write(output, "H_i[3] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_H_i10))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i10))))
              & LF);
-            -- rtl_synthesis on
             local_H_i11 := H_i(to_integer(to_unsigned(4, 3)));
-            -- rtl_synthesis off
             write(output, "H_i[4] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_H_i11))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i11))))
              & LF);
-            -- rtl_synthesis on
             local_H_i12 := H_i(to_integer(to_unsigned(5, 3)));
-            -- rtl_synthesis off
             write(output, "H_i[5] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_H_i12))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i12))))
              & LF);
-            -- rtl_synthesis on
             local_H_i13 := H_i(to_integer(to_unsigned(6, 3)));
-            -- rtl_synthesis off
             write(output, "H_i[6] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_H_i13))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i13))))
              & LF);
-            -- rtl_synthesis on
             local_H_i14 := H_i(to_integer(to_unsigned(7, 3)));
-            -- rtl_synthesis off
             write(output, "H_i[7] = "
-             & to_hstring(to_bitvector(std_logic_vector((local_H_i14))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i14))))
              & LF);
-            -- rtl_synthesis on
             local_H_i15 := H_i(to_integer(to_unsigned(0, 3)));
             local_H_i16 := H_i(to_integer(to_unsigned(1, 3)));
             local_H_i17 := H_i(to_integer(to_unsigned(2, 3)));
