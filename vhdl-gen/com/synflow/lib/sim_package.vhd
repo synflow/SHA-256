@@ -28,8 +28,6 @@
 -- Title      : Simulation package
 -- Author     : Nicolas Siret (nicolas.siret@synflow.com)
 --              Matthieu Wipliez (matthieu.wipliez@synflow.com)
--- Created from the package written by Sarma Nedunuri (sarma.nedunuri@gmail.com)
--- see http://www.velocityreviews.com/forums/t55417-read-from-file.html
 -- Standard   : VHDL'93
 -- SIMULATION ONLY
 -------------------------------------------------------------------------------
