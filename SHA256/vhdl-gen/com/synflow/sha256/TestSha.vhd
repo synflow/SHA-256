@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- Title      : Generated from com.synflow.crypto.TestSha by Synflow Studio
+-- Title      : Generated from com.synflow.sha256.TestSha by Synflow Studio
 -- Project    : SHA-256
 -------------------------------------------------------------------------------
 -- File       : TestSha.vhd

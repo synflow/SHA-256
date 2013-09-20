@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- Title      : Generated from com.synflow.crypto.Expected by Synflow Studio
+-- Title      : Generated from com.synflow.sha256.Expected by Synflow Studio
 -- Project    : SHA-256
 --
 -- File       : Expected.vhd

@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- Title      : Generated from com.synflow.crypto.SHA256 by Synflow Studio
+-- Title      : Generated from com.synflow.sha256.SHA256 by Synflow Studio
 -- Project    : SHA-256
 --
 -- File       : SHA256.vhd
