@@ -59,7 +59,6 @@ begin
     variable dout_out : unsigned(31 downto 0) :=  (others => '0');
   begin
     if reset_n = '0' then
-      dout <= (others => '0');
     --
     elsif rising_edge(clock) then
       --

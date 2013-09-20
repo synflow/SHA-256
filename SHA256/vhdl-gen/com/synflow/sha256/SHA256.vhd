@@ -185,7 +185,7 @@ begin
       h <= x"00000000";
       t <= "0000000";
       W <= (others => x"00000000");
-      hash      <= (others => '0');
+      hash <= (others => '0');
       hash_send <= '0';
       FSM    <= s_SHA256_0;
     --

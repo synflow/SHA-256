@@ -6,70 +6,67 @@ import java.math.BigInteger;
 import com.synflow.runtime.Entity;
 import com.synflow.runtime.Port;
 import com.synflow.runtime.Runner;
-import com.synflow.sha256.Source;
-import com.synflow.sha256.step1.TopShaStep1;
-import com.synflow.sha256.Expected;
+import com.synflow.sha256.step1.SHA256_step1;
+import com.synflow.sha256.step1.RomK;
 
 @SuppressWarnings("all")
-final public class TestShaStep1 implements Entity {
+final public class TopShaStep1 implements Entity {
 
 	public static void main(String[] args) throws ReflectiveOperationException, IOException {
-		new Runner(TestShaStep1.class, args).run();
+		new Runner(TopShaStep1.class, args).run();
 	}
 
 	private final String _name;
 
 	// ports
+	private Port msg;
 
-	private final Source source;
-	private final TopShaStep1 topShaStep1;
-	private final Expected expected;
+	private final SHA256_step1 sHA256_step1;
+	private final RomK romK;
 
 	/**
 	 * constructor
 	 */
-	public TestShaStep1(String name, int flags) {
+	public TopShaStep1(String name, int flags) {
 		this._name = name;
 
 		// create input ports
+		msg = new Port(this, "msg", 32, Port.SYNC | flags);
 
 		// create instances
-		source = new Source("source", flags);
-		topShaStep1 = new TopShaStep1("topShaStep1", flags);
-		expected = new Expected("expected", flags);
+		sHA256_step1 = new SHA256_step1("sHA256_step1", flags);
+		romK = new RomK("romK", flags);
 	}
 
 	@Override
 	public void commit() {
-		source.commit();
-		topShaStep1.commit();
-		expected.commit();
+		sHA256_step1.commit();
+		romK.commit();
 		
 	}
 
 	@Override
 	public void connect(Port... ports) {
+		this.msg = ports[0];
 
-		source.connect();
-		topShaStep1.connect(source.getStimulus());
-		expected.connect(topShaStep1.getHash());
+		sHA256_step1.connect(msg, romK.getDout());
+		romK.connect(sHA256_step1.getKaddr());
 	}
 
 	@Override
 	public void execute() {
-		source.execute();
-		topShaStep1.execute();
-		expected.execute();
+		sHA256_step1.execute();
+		romK.execute();
 	}
 
 	@Override
 	public Entity[] getChildren() {
-		return new Entity[] { source, topShaStep1, expected };
+		return new Entity[] { sHA256_step1, romK };
 	}
 
 	@Override
 	public Port[] getInputs() {
-		return new Port[] {  };
+		return new Port[] { msg };
 	}
 
 	@Override
@@ -79,9 +76,12 @@ final public class TestShaStep1 implements Entity {
 
 	@Override
 	public Port[] getOutputs() {
-		return new Port[] {  };
+		return new Port[] { sHA256_step1.getHash() };
 	}
 
+	public Port getHash() {
+		return sHA256_step1.getHash();
+	}
 
 	@Override
 	public String toString() {

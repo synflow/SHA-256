@@ -79,7 +79,7 @@ begin
   begin
     if reset_n = '0' then
       Source_0_i <= "000000";
-      stimulus      <= (others => '0');
+      stimulus <= (others => '0');
       stimulus_send <= '0';
       FSM    <= s_Source_0;
     --
