@@ -40,19 +40,19 @@ use std.textio.all;
 -------------------------------------------------------------------------------
 -- 
 -------------------------------------------------------------------------------
-package VHDL_93_support is
+package Helper_functions is
 
   function to_boolean(b : std_logic) return boolean;
   function to_std_logic(b : boolean) return std_logic;
   function to_string_93(b : bit) return string;
   function to_hstring_93(b : bit_vector) return string;
 
-end VHDL_93_support;
+end Helper_functions;
 
 -------------------------------------------------------------------------------
 -- Body of package
 -------------------------------------------------------------------------------
-package body VHDL_93_support is
+package body Helper_functions is
 
   -----------------------------------------------------------------------------
   -- Built-in constants and functions
@@ -90,4 +90,4 @@ package body VHDL_93_support is
     return "";
   end;
 
-end VHDL_93_support;
+end Helper_functions;

@@ -268,15 +268,15 @@ begin
         when s_SHA256_3 =>
           if to_boolean(isSchedulable_SHA256_3_a) then
             -- Body of SHA256_3_a (line 62)
-            local_d := d;
-            local_c := c;
-            local_b := b;
-            local_a := a;
+            local_h := h;
+            local_e := e;
             local_f := f;
             local_g := g;
-            local_h := h;
             local_t := t;
-            local_e := e;
+            local_a := a;
+            local_b := b;
+            local_c := c;
+            local_d := d;
             call_ucSigma1 := resize(ucSigma1((local_e)), 32);
             call_Ch := resize(Ch((local_e), (local_f), (local_g)), 32);
             local_K := K(to_integer(resize(local_t, 6)));
@@ -294,26 +294,26 @@ begin
             local_b := (local_a);
             local_a := resize(resize(T1, 33) + resize(T2, 33), 32);
             local_t := resize(resize(local_t, 8) + x"01", 7);
-            d <= (local_d);
-            c <= (local_c);
-            b <= (local_b);
-            a <= (local_a);
+            h <= (local_h);
+            e <= (local_e);
             f <= (local_f);
             g <= (local_g);
-            h <= (local_h);
             t <= (local_t);
-            e <= (local_e);
+            a <= (local_a);
+            b <= (local_b);
+            c <= (local_c);
+            d <= (local_d);
             FSM <= s_SHA256_3;
           elsif to_boolean(isSchedulable_SHA256_3_b) then
             -- Body of SHA256_3_b (line 73)
-            local_d := d;
-            local_c := c;
-            local_f := f;
-            local_b := b;
             local_a := a;
+            local_b := b;
+            local_c := c;
+            local_d := d;
+            local_e := e;
+            local_f := f;
             local_g := g;
             local_h := h;
-            local_e := e;
             local_H_i := H_i(to_integer(to_unsigned(0, 3)));
             H_i(to_integer(to_unsigned(0, 3)))  <= resize(resize(local_H_i, 33) + resize(local_a, 33), 32);
             local_H_i0 := H_i(to_integer(to_unsigned(1, 3)));
