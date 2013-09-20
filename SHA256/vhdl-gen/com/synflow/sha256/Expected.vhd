@@ -77,6 +77,8 @@ begin
              & to_hstring_93(to_bitvector(std_logic_vector((dut_hash))))
              & LF);
             assert (dut_hash) = x"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" report "(dut_hash) = x'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'" severity failure;
+            write(output, "assertion passed"
+             & LF);
             FSM <= s_Expected_1;
           end if;
         
