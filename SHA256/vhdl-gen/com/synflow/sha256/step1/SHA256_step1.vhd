@@ -20,7 +20,7 @@ use std.textio.all;
 
 library work;
 use work.Helper_functions.all;
-use work.SHAFunctions.all;
+use work.SHACommon.all;
 
 -------------------------------------------------------------------------------
 entity SHA256_step1 is
@@ -68,7 +68,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
   -----------------------------------------------------------------------------
   -- Behavior
   -----------------------------------------------------------------------------
-  -- Scheduler of SHA256_step1_1_a (line 25)
+  -- Scheduler of SHA256_step1_1_a (line 24)
   impure function isSchedulable_SHA256_step1_1_a return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -76,7 +76,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return to_std_logic((local_t) < "0010000");
   end function isSchedulable_SHA256_step1_1_a;
   
-  -- Scheduler of SHA256_step1_1_b (line 28)
+  -- Scheduler of SHA256_step1_1_b (line 27)
   impure function isSchedulable_SHA256_step1_1_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -84,7 +84,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return (not (to_std_logic((local_t) < "0010000")));
   end function isSchedulable_SHA256_step1_1_b;
   
-  -- Scheduler of SHA256_step1_2_a (line 30)
+  -- Scheduler of SHA256_step1_2_a (line 29)
   impure function isSchedulable_SHA256_step1_2_a return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -92,7 +92,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return to_std_logic((local_t) < "1000000");
   end function isSchedulable_SHA256_step1_2_a;
   
-  -- Scheduler of SHA256_step1_2_b (line 32)
+  -- Scheduler of SHA256_step1_2_b (line 31)
   impure function isSchedulable_SHA256_step1_2_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -100,7 +100,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return (not (to_std_logic((local_t) < "1000000")));
   end function isSchedulable_SHA256_step1_2_b;
   
-  -- Scheduler of SHA256_step1_4_a (line 56)
+  -- Scheduler of SHA256_step1_4_a (line 55)
   impure function isSchedulable_SHA256_step1_4_a return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -108,7 +108,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return to_std_logic((local_t) < "1000000");
   end function isSchedulable_SHA256_step1_4_a;
   
-  -- Scheduler of SHA256_step1_4_b (line 68)
+  -- Scheduler of SHA256_step1_4_b (line 67)
   impure function isSchedulable_SHA256_step1_4_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -198,14 +198,14 @@ begin
       case FSM is
         when s_SHA256_step1_0 =>
           if to_boolean('1') then
-            -- Body of SHA256_step1_0 (line 24)
+            -- Body of SHA256_step1_0 (line 23)
             t <= "0000000";
             FSM <= s_SHA256_step1_1;
           end if;
         
         when s_SHA256_step1_1 =>
           if to_boolean(msg_send and isSchedulable_SHA256_step1_1_a) then
-            -- Body of SHA256_step1_1_a (line 25)
+            -- Body of SHA256_step1_1_a (line 24)
             msg_in := unsigned(msg);
             local_t := t;
             local_msg := msg_in;
@@ -220,13 +220,13 @@ begin
             t <= (local_t);
             FSM <= s_SHA256_step1_1;
           elsif to_boolean(isSchedulable_SHA256_step1_1_b) then
-            -- Body of SHA256_step1_1_b (line 28)
+            -- Body of SHA256_step1_1_b (line 27)
             FSM <= s_SHA256_step1_2;
           end if;
         
         when s_SHA256_step1_2 =>
           if to_boolean(isSchedulable_SHA256_step1_2_a) then
-            -- Body of SHA256_step1_2_a (line 30)
+            -- Body of SHA256_step1_2_a (line 29)
             local_t := t;
             local_W := W(to_integer(resize(resize(local_t, 8) - x"02", 6)));
             call_lcSigma1 := resize(lcSigma1((local_W)), 32);
@@ -239,7 +239,7 @@ begin
             t <= (local_t);
             FSM <= s_SHA256_step1_2;
           elsif to_boolean(isSchedulable_SHA256_step1_2_b) then
-            -- Body of SHA256_step1_2_b (line 32)
+            -- Body of SHA256_step1_2_b (line 31)
             H_i(to_integer(to_unsigned(0, 3)))  <= x"6a09e667";
             H_i(to_integer(to_unsigned(1, 3)))  <= x"bb67ae85";
             H_i(to_integer(to_unsigned(2, 3)))  <= x"3c6ef372";
@@ -255,7 +255,7 @@ begin
         
         when s_SHA256_step1_3 =>
           if to_boolean('1') then
-            -- Body of SHA256_step1_3 (line 45)
+            -- Body of SHA256_step1_3 (line 44)
             local_H_i := H_i(to_integer(to_unsigned(0, 3)));
             a <= (local_H_i);
             local_H_i0 := H_i(to_integer(to_unsigned(1, 3)));
@@ -280,7 +280,7 @@ begin
         
         when s_SHA256_step1_4 =>
           if to_boolean(isSchedulable_SHA256_step1_4_a) then
-            -- Body of SHA256_step1_4_a (line 56)
+            -- Body of SHA256_step1_4_a (line 55)
             Kin_in := unsigned(Kin);
             local_h := h;
             local_e := e;
@@ -321,7 +321,7 @@ begin
             Kaddr   <= std_logic_vector(Kaddr_out);
             FSM <= s_SHA256_step1_4;
           elsif to_boolean(isSchedulable_SHA256_step1_4_b) then
-            -- Body of SHA256_step1_4_b (line 68)
+            -- Body of SHA256_step1_4_b (line 67)
             local_a := a;
             local_b := b;
             local_c := c;

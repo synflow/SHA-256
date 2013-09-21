@@ -2,7 +2,7 @@
  * Copyright (c) 2013 Matthieu
  * All rights reserved.
  */
-import SHAFunctions.{Ch, Maj, lcSigma0, lcSigma1, ucSigma0, ucSigma1};
+import SHACommon.{Ch, Maj, lcSigma0, lcSigma1, ucSigma0, ucSigma1};
 
 /*
  * Input and output ports

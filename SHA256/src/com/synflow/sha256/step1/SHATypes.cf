@@ -1,7 +1,0 @@
-/*
- * Copyright (c) 2013 Matthieu
- * All rights reserved.
- */
-
-typedef u6 addr_t;
-

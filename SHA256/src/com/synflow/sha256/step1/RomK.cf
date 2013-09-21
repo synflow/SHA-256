@@ -2,7 +2,7 @@
  * Copyright (c) 2013 Matthieu
  * All rights reserved.
  */
-import SHATypes.addr_t;
+import SHACommon.addr_t;
 
 /*
  * Input and output ports

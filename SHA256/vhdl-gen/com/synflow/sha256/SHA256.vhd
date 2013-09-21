@@ -20,7 +20,7 @@ use std.textio.all;
 
 library work;
 use work.Helper_functions.all;
-use work.SHAFunctions.all;
+use work.SHACommon.all;
 
 -------------------------------------------------------------------------------
 entity SHA256 is
