@@ -6,7 +6,7 @@ import java.math.BigInteger;
 import com.synflow.runtime.Entity;
 import com.synflow.runtime.Port;
 import com.synflow.runtime.Runner;
-import static com.synflow.sha256.SHAFunctions.*;
+import static com.synflow.sha256.SHACommon.*;
 
 @SuppressWarnings("all")
 final public class SHA256 implements Entity {
@@ -140,6 +140,9 @@ final public class SHA256 implements Entity {
 				int local_t2 = 0;
 				int local_t3 = 0;
 				int local_t4 = 0;
+				int local_W3 = 0;
+				int local_t5 = 0;
+				int local_t6 = 0;
 				local_t = t; // (line 40)
 				local_W = W[((((local_t) & 0x7f) - 0x2) & 0x3f)]; // (line 40)
 				call_lcSigma1 = lcSigma1(local_W); // (line 40)
@@ -152,8 +155,12 @@ final public class SHA256 implements Entity {
 				local_W2 = W[((((local_t2) & 0x7f) - 0x10) & 0x3f)]; // (line 40)
 				local_t3 = t; // (line 40)
 				W[((local_t3) & 0x3f)] = ((int) ((((long) ((((long) ((((long) (call_lcSigma1)) & 0xffffffffL) + (((long) (local_W0)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_lcSigma0)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_W2)) & 0xffffffffL)) & 0xffffffff); // (line 40)
-				local_t4 = t; // (line 0)
-				t = ((((local_t4) & 0x7f) + 0x1) & 0x7f); // (line 39)
+				local_t4 = t; // (line 41)
+				local_t5 = t; // (line 41)
+				local_W3 = W[((local_t5) & 0x3f)]; // (line 41)
+				System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t4) + "] = " + "0x" + Integer.toHexString(local_W3)); // (line 41)
+				local_t6 = t; // (line 0)
+				t = ((((local_t6) & 0x7f) + 0x1) & 0x7f); // (line 39)
 			
 				_state = 2;
 				return;
@@ -164,7 +171,7 @@ final public class SHA256 implements Entity {
 				isSchedulable = !(local_t < 0x40);
 			}
 			if (isSchedulable) {
-				// action SHA256_2_b (line 42)
+				// action SHA256_2_b (line 43)
 				int local_H_i = 0;
 				int local_H_i0 = 0;
 				int local_H_i1 = 0;
@@ -173,31 +180,31 @@ final public class SHA256 implements Entity {
 				int local_H_i4 = 0;
 				int local_H_i5 = 0;
 				int local_H_i6 = 0;
-				H_i[0x0] = 0x6a09e667; // (line 43)
-				H_i[0x1] = 0xbb67ae85; // (line 44)
-				H_i[0x2] = 0x3c6ef372; // (line 45)
-				H_i[0x3] = 0xa54ff53a; // (line 46)
-				H_i[0x4] = 0x510e527f; // (line 47)
-				H_i[0x5] = 0x9b05688c; // (line 48)
-				H_i[0x6] = 0x1f83d9ab; // (line 49)
-				H_i[0x7] = 0x5be0cd19; // (line 50)
-				local_H_i = H_i[0x0]; // (line 52)
-				a = local_H_i; // (line 52)
-				local_H_i0 = H_i[0x1]; // (line 53)
-				b = local_H_i0; // (line 53)
-				local_H_i1 = H_i[0x2]; // (line 54)
-				c = local_H_i1; // (line 54)
-				local_H_i2 = H_i[0x3]; // (line 55)
-				d = local_H_i2; // (line 55)
-				local_H_i3 = H_i[0x4]; // (line 56)
-				e = local_H_i3; // (line 56)
-				local_H_i4 = H_i[0x5]; // (line 57)
-				f = local_H_i4; // (line 57)
-				local_H_i5 = H_i[0x6]; // (line 58)
-				g = local_H_i5; // (line 58)
-				local_H_i6 = H_i[0x7]; // (line 59)
-				h = local_H_i6; // (line 59)
-				t = 0x0; // (line 61)
+				H_i[0x0] = 0x6a09e667; // (line 44)
+				H_i[0x1] = 0xbb67ae85; // (line 45)
+				H_i[0x2] = 0x3c6ef372; // (line 46)
+				H_i[0x3] = 0xa54ff53a; // (line 47)
+				H_i[0x4] = 0x510e527f; // (line 48)
+				H_i[0x5] = 0x9b05688c; // (line 49)
+				H_i[0x6] = 0x1f83d9ab; // (line 50)
+				H_i[0x7] = 0x5be0cd19; // (line 51)
+				local_H_i = H_i[0x0]; // (line 53)
+				a = local_H_i; // (line 53)
+				local_H_i0 = H_i[0x1]; // (line 54)
+				b = local_H_i0; // (line 54)
+				local_H_i1 = H_i[0x2]; // (line 55)
+				c = local_H_i1; // (line 55)
+				local_H_i2 = H_i[0x3]; // (line 56)
+				d = local_H_i2; // (line 56)
+				local_H_i3 = H_i[0x4]; // (line 57)
+				e = local_H_i3; // (line 57)
+				local_H_i4 = H_i[0x5]; // (line 58)
+				f = local_H_i4; // (line 58)
+				local_H_i5 = H_i[0x6]; // (line 59)
+				g = local_H_i5; // (line 59)
+				local_H_i6 = H_i[0x7]; // (line 60)
+				h = local_H_i6; // (line 60)
+				t = 0x0; // (line 62)
 			
 				_state = 3;
 				return;
@@ -210,7 +217,7 @@ final public class SHA256 implements Entity {
 				isSchedulable = local_t < 0x40;
 			}
 			if (isSchedulable) {
-				// action SHA256_3_a (line 62)
+				// action SHA256_3_a (line 63)
 				int T1 = 0;
 				int local_h = 0;
 				int local_e = 0;
@@ -238,42 +245,42 @@ final public class SHA256 implements Entity {
 				int local_b0 = 0;
 				int local_a1 = 0;
 				int local_t1 = 0;
-				local_h = h; // (line 62)
-				local_e = e; // (line 62)
-				call_ucSigma1 = ucSigma1(local_e); // (line 62)
-				local_e0 = e; // (line 62)
-				local_f = f; // (line 62)
-				local_g = g; // (line 62)
-				call_Ch = Ch(local_e0, local_f, local_g); // (line 62)
-				local_t = t; // (line 62)
-				local_K = K[((local_t) & 0x3f)]; // (line 62)
-				local_t0 = t; // (line 62)
-				local_W = W[((local_t0) & 0x3f)]; // (line 62)
+				local_h = h; // (line 63)
+				local_e = e; // (line 63)
+				call_ucSigma1 = ucSigma1(local_e); // (line 63)
+				local_e0 = e; // (line 63)
+				local_f = f; // (line 63)
+				local_g = g; // (line 63)
+				call_Ch = Ch(local_e0, local_f, local_g); // (line 63)
+				local_t = t; // (line 63)
+				local_K = K[((local_t) & 0x3f)]; // (line 63)
+				local_t0 = t; // (line 63)
+				local_W = W[((local_t0) & 0x3f)]; // (line 63)
 				T1 = ((int) ((((long) ((((long) ((((long) ((((long) (local_h)) & 0xffffffffL) + (((long) (call_ucSigma1)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_Ch)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_K)) & 0xffffffffL))) & 0x7ffffffffL) + (((long) (local_W)) & 0xffffffffL)) & 0xffffffff); // (line 0)
-				local_a = a; // (line 63)
-				call_ucSigma0 = ucSigma0(local_a); // (line 63)
-				local_a0 = a; // (line 63)
-				local_b = b; // (line 63)
-				local_c = c; // (line 63)
-				call_Maj = Maj(local_a0, local_b, local_c); // (line 63)
+				local_a = a; // (line 64)
+				call_ucSigma0 = ucSigma0(local_a); // (line 64)
+				local_a0 = a; // (line 64)
+				local_b = b; // (line 64)
+				local_c = c; // (line 64)
+				call_Maj = Maj(local_a0, local_b, local_c); // (line 64)
 				T2 = ((int) ((((long) (call_ucSigma0)) & 0xffffffffL) + (((long) (call_Maj)) & 0xffffffffL)) & 0xffffffff); // (line 0)
-				local_g0 = g; // (line 64)
-				h = local_g0; // (line 64)
-				local_f0 = f; // (line 65)
-				g = local_f0; // (line 65)
-				local_e1 = e; // (line 66)
-				f = local_e1; // (line 66)
-				local_d = d; // (line 67)
-				e = ((int) ((((long) (local_d)) & 0xffffffffL) + (((long) (T1)) & 0xffffffffL)) & 0xffffffff); // (line 67)
-				local_c0 = c; // (line 68)
-				d = local_c0; // (line 68)
-				local_b0 = b; // (line 69)
-				c = local_b0; // (line 69)
-				local_a1 = a; // (line 70)
-				b = local_a1; // (line 70)
-				a = ((int) ((((long) (T1)) & 0xffffffffL) + (((long) (T2)) & 0xffffffffL)) & 0xffffffff); // (line 71)
+				local_g0 = g; // (line 65)
+				h = local_g0; // (line 65)
+				local_f0 = f; // (line 66)
+				g = local_f0; // (line 66)
+				local_e1 = e; // (line 67)
+				f = local_e1; // (line 67)
+				local_d = d; // (line 68)
+				e = ((int) ((((long) (local_d)) & 0xffffffffL) + (((long) (T1)) & 0xffffffffL)) & 0xffffffff); // (line 68)
+				local_c0 = c; // (line 69)
+				d = local_c0; // (line 69)
+				local_b0 = b; // (line 70)
+				c = local_b0; // (line 70)
+				local_a1 = a; // (line 71)
+				b = local_a1; // (line 71)
+				a = ((int) ((((long) (T1)) & 0xffffffffL) + (((long) (T2)) & 0xffffffffL)) & 0xffffffff); // (line 72)
 				local_t1 = t; // (line 0)
-				t = ((((local_t1) & 0x7f) + 0x1) & 0x7f); // (line 61)
+				t = ((((local_t1) & 0x7f) + 0x1) & 0x7f); // (line 62)
 			
 				_state = 3;
 				return;
@@ -284,7 +291,7 @@ final public class SHA256 implements Entity {
 				isSchedulable = !(local_t < 0x40);
 			}
 			if (isSchedulable) {
-				// action SHA256_3_b (line 73)
+				// action SHA256_3_b (line 74)
 				int local_H_i = 0;
 				int local_a = 0;
 				int local_H_i0 = 0;
@@ -319,53 +326,53 @@ final public class SHA256 implements Entity {
 				int local_H_i22 = 0;
 				local_H_i = H_i[0x0]; // (line 0)
 				local_a = a; // (line 0)
-				H_i[0x0] = ((int) ((((long) (local_H_i)) & 0xffffffffL) + (((long) (local_a)) & 0xffffffffL)) & 0xffffffff); // (line 74)
+				H_i[0x0] = ((int) ((((long) (local_H_i)) & 0xffffffffL) + (((long) (local_a)) & 0xffffffffL)) & 0xffffffff); // (line 75)
 				local_H_i0 = H_i[0x1]; // (line 0)
 				local_b = b; // (line 0)
-				H_i[0x1] = ((int) ((((long) (local_H_i0)) & 0xffffffffL) + (((long) (local_b)) & 0xffffffffL)) & 0xffffffff); // (line 75)
+				H_i[0x1] = ((int) ((((long) (local_H_i0)) & 0xffffffffL) + (((long) (local_b)) & 0xffffffffL)) & 0xffffffff); // (line 76)
 				local_H_i1 = H_i[0x2]; // (line 0)
 				local_c = c; // (line 0)
-				H_i[0x2] = ((int) ((((long) (local_H_i1)) & 0xffffffffL) + (((long) (local_c)) & 0xffffffffL)) & 0xffffffff); // (line 76)
+				H_i[0x2] = ((int) ((((long) (local_H_i1)) & 0xffffffffL) + (((long) (local_c)) & 0xffffffffL)) & 0xffffffff); // (line 77)
 				local_H_i2 = H_i[0x3]; // (line 0)
 				local_d = d; // (line 0)
-				H_i[0x3] = ((int) ((((long) (local_H_i2)) & 0xffffffffL) + (((long) (local_d)) & 0xffffffffL)) & 0xffffffff); // (line 77)
+				H_i[0x3] = ((int) ((((long) (local_H_i2)) & 0xffffffffL) + (((long) (local_d)) & 0xffffffffL)) & 0xffffffff); // (line 78)
 				local_H_i3 = H_i[0x4]; // (line 0)
 				local_e = e; // (line 0)
-				H_i[0x4] = ((int) ((((long) (local_H_i3)) & 0xffffffffL) + (((long) (local_e)) & 0xffffffffL)) & 0xffffffff); // (line 78)
+				H_i[0x4] = ((int) ((((long) (local_H_i3)) & 0xffffffffL) + (((long) (local_e)) & 0xffffffffL)) & 0xffffffff); // (line 79)
 				local_H_i4 = H_i[0x5]; // (line 0)
 				local_f = f; // (line 0)
-				H_i[0x5] = ((int) ((((long) (local_H_i4)) & 0xffffffffL) + (((long) (local_f)) & 0xffffffffL)) & 0xffffffff); // (line 79)
+				H_i[0x5] = ((int) ((((long) (local_H_i4)) & 0xffffffffL) + (((long) (local_f)) & 0xffffffffL)) & 0xffffffff); // (line 80)
 				local_H_i5 = H_i[0x6]; // (line 0)
 				local_g = g; // (line 0)
-				H_i[0x6] = ((int) ((((long) (local_H_i5)) & 0xffffffffL) + (((long) (local_g)) & 0xffffffffL)) & 0xffffffff); // (line 80)
+				H_i[0x6] = ((int) ((((long) (local_H_i5)) & 0xffffffffL) + (((long) (local_g)) & 0xffffffffL)) & 0xffffffff); // (line 81)
 				local_H_i6 = H_i[0x7]; // (line 0)
 				local_h = h; // (line 0)
-				H_i[0x7] = ((int) ((((long) (local_H_i6)) & 0xffffffffL) + (((long) (local_h)) & 0xffffffffL)) & 0xffffffff); // (line 81)
-				local_H_i7 = H_i[0x0]; // (line 83)
-				System.out.println(this + ": " + "H_i[0] = " + "0x" + Integer.toHexString(local_H_i7)); // (line 83)
-				local_H_i8 = H_i[0x1]; // (line 84)
-				System.out.println(this + ": " + "H_i[1] = " + "0x" + Integer.toHexString(local_H_i8)); // (line 84)
-				local_H_i9 = H_i[0x2]; // (line 85)
-				System.out.println(this + ": " + "H_i[2] = " + "0x" + Integer.toHexString(local_H_i9)); // (line 85)
-				local_H_i10 = H_i[0x3]; // (line 86)
-				System.out.println(this + ": " + "H_i[3] = " + "0x" + Integer.toHexString(local_H_i10)); // (line 86)
-				local_H_i11 = H_i[0x4]; // (line 87)
-				System.out.println(this + ": " + "H_i[4] = " + "0x" + Integer.toHexString(local_H_i11)); // (line 87)
-				local_H_i12 = H_i[0x5]; // (line 88)
-				System.out.println(this + ": " + "H_i[5] = " + "0x" + Integer.toHexString(local_H_i12)); // (line 88)
-				local_H_i13 = H_i[0x6]; // (line 89)
-				System.out.println(this + ": " + "H_i[6] = " + "0x" + Integer.toHexString(local_H_i13)); // (line 89)
-				local_H_i14 = H_i[0x7]; // (line 90)
-				System.out.println(this + ": " + "H_i[7] = " + "0x" + Integer.toHexString(local_H_i14)); // (line 90)
-				local_H_i15 = H_i[0x0]; // (line 93)
-				local_H_i16 = H_i[0x1]; // (line 94)
-				local_H_i17 = H_i[0x2]; // (line 95)
-				local_H_i18 = H_i[0x3]; // (line 96)
-				local_H_i19 = H_i[0x4]; // (line 97)
-				local_H_i20 = H_i[0x5]; // (line 98)
-				local_H_i21 = H_i[0x6]; // (line 99)
-				local_H_i22 = H_i[0x7]; // (line 100)
-				hash_out = (BigInteger.valueOf(local_H_i15).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0xe0)).or(BigInteger.valueOf(local_H_i16).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0xc0)).or(BigInteger.valueOf(local_H_i17).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0xa0)).or(BigInteger.valueOf(local_H_i18).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0x80)).or(BigInteger.valueOf(local_H_i19).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0x60)).or(BigInteger.valueOf(local_H_i20).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0x40)).or(BigInteger.valueOf(((((long) (local_H_i21)) & 0xffffffffL) << 0x20)).and(new BigInteger(new byte[] {0, -1, -1, -1, -1, -1, -1, -1, -1}))).or(BigInteger.valueOf(local_H_i22).and(new BigInteger(new byte[] {0, -1, -1, -1, -1}))); // (line 92)
+				H_i[0x7] = ((int) ((((long) (local_H_i6)) & 0xffffffffL) + (((long) (local_h)) & 0xffffffffL)) & 0xffffffff); // (line 82)
+				local_H_i7 = H_i[0x0]; // (line 84)
+				System.out.println(this + ": " + "H_i[0] = " + "0x" + Integer.toHexString(local_H_i7)); // (line 84)
+				local_H_i8 = H_i[0x1]; // (line 85)
+				System.out.println(this + ": " + "H_i[1] = " + "0x" + Integer.toHexString(local_H_i8)); // (line 85)
+				local_H_i9 = H_i[0x2]; // (line 86)
+				System.out.println(this + ": " + "H_i[2] = " + "0x" + Integer.toHexString(local_H_i9)); // (line 86)
+				local_H_i10 = H_i[0x3]; // (line 87)
+				System.out.println(this + ": " + "H_i[3] = " + "0x" + Integer.toHexString(local_H_i10)); // (line 87)
+				local_H_i11 = H_i[0x4]; // (line 88)
+				System.out.println(this + ": " + "H_i[4] = " + "0x" + Integer.toHexString(local_H_i11)); // (line 88)
+				local_H_i12 = H_i[0x5]; // (line 89)
+				System.out.println(this + ": " + "H_i[5] = " + "0x" + Integer.toHexString(local_H_i12)); // (line 89)
+				local_H_i13 = H_i[0x6]; // (line 90)
+				System.out.println(this + ": " + "H_i[6] = " + "0x" + Integer.toHexString(local_H_i13)); // (line 90)
+				local_H_i14 = H_i[0x7]; // (line 91)
+				System.out.println(this + ": " + "H_i[7] = " + "0x" + Integer.toHexString(local_H_i14)); // (line 91)
+				local_H_i15 = H_i[0x0]; // (line 94)
+				local_H_i16 = H_i[0x1]; // (line 95)
+				local_H_i17 = H_i[0x2]; // (line 96)
+				local_H_i18 = H_i[0x3]; // (line 97)
+				local_H_i19 = H_i[0x4]; // (line 98)
+				local_H_i20 = H_i[0x5]; // (line 99)
+				local_H_i21 = H_i[0x6]; // (line 100)
+				local_H_i22 = H_i[0x7]; // (line 101)
+				hash_out = (BigInteger.valueOf(local_H_i15).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0xe0)).or(BigInteger.valueOf(local_H_i16).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0xc0)).or(BigInteger.valueOf(local_H_i17).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0xa0)).or(BigInteger.valueOf(local_H_i18).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0x80)).or(BigInteger.valueOf(local_H_i19).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0x60)).or(BigInteger.valueOf(local_H_i20).and(new BigInteger(new byte[] {0, -1, -1, -1, -1})).shiftLeft(0x40)).or(BigInteger.valueOf(((((long) (local_H_i21)) & 0xffffffffL) << 0x20)).and(new BigInteger(new byte[] {0, -1, -1, -1, -1, -1, -1, -1, -1}))).or(BigInteger.valueOf(local_H_i22).and(new BigInteger(new byte[] {0, -1, -1, -1, -1}))); // (line 93)
 				hash.write(hash_out);
 			
 				_state = 0;

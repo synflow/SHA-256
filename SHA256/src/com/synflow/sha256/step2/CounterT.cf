@@ -1,0 +1,30 @@
+/*
+ * Copyright (c) 2013 Matthieu
+ * All rights reserved.
+ */
+import SHACommon.addr_t;
+
+/*
+ * Input and output ports
+ */
+port in sync u32 msg_i, out bool start_o, u32 msg_o, addr_t t_o;
+
+u7 t;
+
+/**
+ * Task
+ */
+void main() {
+	if (t <= 16) {
+		msg_o.write(msg_i.read);
+		start_o.write(true);
+		t_o.write(t - 1);
+		t++;
+	} else if (t <= 64) {
+		t_o.write(t - 1);
+		t++;
+	} else {
+		t = 0;
+		start_o.write(false);
+	}
+}

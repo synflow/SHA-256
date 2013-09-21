@@ -1,0 +1,82 @@
+/*
+ * Copyright (c) 2013 Matthieu
+ * All rights reserved.
+ */
+import SHACommon;
+
+/*
+ * Input and output ports
+ */
+port in sync u32 W, Kin, out sync u256 hash;
+
+u32 H_i[8];
+
+u32 a, b, c, d, e, f, g, h;
+u7 t;
+
+/**
+ * Task
+ */
+void main() {
+	H_i[0] = 0x6a09e667;
+	H_i[1] = 0xbb67ae85;
+	H_i[2] = 0x3c6ef372;
+	H_i[3] = 0xa54ff53a;
+	H_i[4] = 0x510e527f;
+	H_i[5] = 0x9b05688c;
+	H_i[6] = 0x1f83d9ab;
+	H_i[7] = 0x5be0cd19;
+	
+	a = H_i[0];
+	b = H_i[1];
+	c = H_i[2];
+	d = H_i[3];
+	e = H_i[4];
+	f = H_i[5];
+	g = H_i[6];
+	h = H_i[7];
+
+	for (t = 0; t < 64; t++) {
+		u32 k = Kin.read;
+		print("K[", t, "] = ", k);
+		u32 T1 = h + ucSigma1(e) + Ch(e, f, g) + k + W.read;
+		u32 T2 = ucSigma0(a) + Maj(a, b, c);
+		h = g;
+		g = f;
+		f = e;
+		e = d + T1;
+		d = c;
+		c = b;
+		b = a;
+		a = T1 + T2;
+	}
+
+	H_i[0] += a;
+	H_i[1] += b;
+	H_i[2] += c;
+	H_i[3] += d;
+	H_i[4] += e;
+	H_i[5] += f;
+	H_i[6] += g;
+	H_i[7] += h;
+	
+	print("H_i[0] = ", H_i[0]);
+	print("H_i[1] = ", H_i[1]);
+	print("H_i[2] = ", H_i[2]);
+	print("H_i[3] = ", H_i[3]);
+	print("H_i[4] = ", H_i[4]);
+	print("H_i[5] = ", H_i[5]);
+	print("H_i[6] = ", H_i[6]);
+	print("H_i[7] = ", H_i[7]);
+	
+	hash.write(
+		H_i[0] << 224 |
+		H_i[1] << 192 |
+		H_i[2] << 160 |
+		H_i[3] << 128 |
+		H_i[4] << 96 |
+		H_i[5] << 64 |
+		H_i[6] << 32 |
+		H_i[7]
+	);
+}
