@@ -3,17 +3,33 @@ Results on a Cyclone IV GX:
 -------------------------------------------------------
 behavioral
 
-synthesis time (including timing analysis): 4 minutes
-max frequency: 60 MHz
-2828 registers
-4823 LUTs
+max frequency: 65 MHz
+2830 registers
+4816 LUTs
 no memory used
 
 -------------------------------------------------------
 step 1
 
-synthesis time (including timing analysis): 4 minutes
-max frequency: 60 MHz
-2835 registers
-4632 LUTs
+transform K to ROM
+
+max frequency: 65 MHz
+2836 registers
+4635 LUTs
 2048 memory bits
+
+-------------------------------------------------------
+step 2
+
+replace W register array with shift register
+
+max frequency: 95 MHz
+972 registers
+1282 LUTs
+2304 memory bits
+
+Compared to behavioral description:
+  1/4 of synthesis time
+  1/4 of LUTs
+  1/3 of registers
+  almost 50% higher frequency
