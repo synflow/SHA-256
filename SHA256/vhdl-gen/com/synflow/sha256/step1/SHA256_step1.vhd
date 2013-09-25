@@ -62,7 +62,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
   -----------------------------------------------------------------------------
   -- FSM
   -----------------------------------------------------------------------------
-  type FSM_type is (s_SHA256_step1_0, s_SHA256_step1_1, s_SHA256_step1_2, s_SHA256_step1_3, s_SHA256_step1_4);
+  type FSM_type is (s_SHA256_step1_0, s_SHA256_step1_1, s_SHA256_step1_2, s_SHA256_step1_3, s_SHA256_step1_4, s_SHA256_step1_5);
   signal FSM : FSM_type;
 
   -----------------------------------------------------------------------------
@@ -76,7 +76,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return to_std_logic((local_t) < "0010000");
   end function isSchedulable_SHA256_step1_1_a;
   
-  -- Scheduler of SHA256_step1_1_b (line 27)
+  -- Scheduler of SHA256_step1_1_b (line 28)
   impure function isSchedulable_SHA256_step1_1_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -84,7 +84,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return (not (to_std_logic((local_t) < "0010000")));
   end function isSchedulable_SHA256_step1_1_b;
   
-  -- Scheduler of SHA256_step1_2_a (line 29)
+  -- Scheduler of SHA256_step1_2_a (line 30)
   impure function isSchedulable_SHA256_step1_2_a return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -92,7 +92,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return to_std_logic((local_t) < "1000000");
   end function isSchedulable_SHA256_step1_2_a;
   
-  -- Scheduler of SHA256_step1_2_b (line 31)
+  -- Scheduler of SHA256_step1_2_b (line 32)
   impure function isSchedulable_SHA256_step1_2_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -100,7 +100,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return (not (to_std_logic((local_t) < "1000000")));
   end function isSchedulable_SHA256_step1_2_b;
   
-  -- Scheduler of SHA256_step1_4_a (line 55)
+  -- Scheduler of SHA256_step1_4_a (line 56)
   impure function isSchedulable_SHA256_step1_4_a return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -108,7 +108,7 @@ architecture rtl_SHA256_step1 of SHA256_step1 is
     return to_std_logic((local_t) < "1000000");
   end function isSchedulable_SHA256_step1_4_a;
   
-  -- Scheduler of SHA256_step1_4_b (line 67)
+  -- Scheduler of SHA256_step1_4_b (line 68)
   impure function isSchedulable_SHA256_step1_4_b return std_logic is
     variable local_t : unsigned(6 downto 0);
   begin
@@ -123,6 +123,7 @@ begin
   -- Synchronous process
   -----------------------------------------------------------------------------
   SHA256_step1_execute : process (reset_n, clock) is
+    variable m : unsigned(31 downto 0);
     variable local_msg : unsigned(31 downto 0);
     variable local_t : unsigned(6 downto 0);
     variable local_W : unsigned(31 downto 0);
@@ -162,14 +163,6 @@ begin
     variable local_H_i12 : unsigned(31 downto 0);
     variable local_H_i13 : unsigned(31 downto 0);
     variable local_H_i14 : unsigned(31 downto 0);
-    variable local_H_i15 : unsigned(31 downto 0);
-    variable local_H_i16 : unsigned(31 downto 0);
-    variable local_H_i17 : unsigned(31 downto 0);
-    variable local_H_i18 : unsigned(31 downto 0);
-    variable local_H_i19 : unsigned(31 downto 0);
-    variable local_H_i20 : unsigned(31 downto 0);
-    variable local_H_i21 : unsigned(31 downto 0);
-    variable local_H_i22 : unsigned(31 downto 0);
     variable msg_in  : unsigned(31 downto 0);
     variable Kin_in  : unsigned(31 downto 0);
     variable hash_out : unsigned(255 downto 0) :=  (others => '0');
@@ -209,24 +202,24 @@ begin
             msg_in := unsigned(msg);
             local_t := t;
             local_msg := msg_in;
-            W(to_integer(resize(local_t, 6)))  <= (local_msg);
-            local_W := W(to_integer(resize(local_t, 6)));
+            m := (local_msg);
+            W(to_integer(resize(local_t, 6)))  <= (m);
             write(output, "W["
              & to_hstring_93(to_bitvector(std_logic_vector((local_t))))
              & "] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_W))))
+             & to_hstring_93(to_bitvector(std_logic_vector((m))))
              & LF);
             local_t := resize(resize(local_t, 8) + x"01", 7);
             t <= (local_t);
             FSM <= s_SHA256_step1_1;
           elsif to_boolean(isSchedulable_SHA256_step1_1_b) then
-            -- Body of SHA256_step1_1_b (line 27)
+            -- Body of SHA256_step1_1_b (line 28)
             FSM <= s_SHA256_step1_2;
           end if;
         
         when s_SHA256_step1_2 =>
           if to_boolean(isSchedulable_SHA256_step1_2_a) then
-            -- Body of SHA256_step1_2_a (line 29)
+            -- Body of SHA256_step1_2_a (line 30)
             local_t := t;
             local_W := W(to_integer(resize(resize(local_t, 8) - x"02", 6)));
             call_lcSigma1 := resize(lcSigma1((local_W)), 32);
@@ -239,7 +232,7 @@ begin
             t <= (local_t);
             FSM <= s_SHA256_step1_2;
           elsif to_boolean(isSchedulable_SHA256_step1_2_b) then
-            -- Body of SHA256_step1_2_b (line 31)
+            -- Body of SHA256_step1_2_b (line 32)
             H_i(to_integer(to_unsigned(0, 3)))  <= x"6a09e667";
             H_i(to_integer(to_unsigned(1, 3)))  <= x"bb67ae85";
             H_i(to_integer(to_unsigned(2, 3)))  <= x"3c6ef372";
@@ -255,7 +248,7 @@ begin
         
         when s_SHA256_step1_3 =>
           if to_boolean('1') then
-            -- Body of SHA256_step1_3 (line 44)
+            -- Body of SHA256_step1_3 (line 45)
             local_H_i := H_i(to_integer(to_unsigned(0, 3)));
             a <= (local_H_i);
             local_H_i0 := H_i(to_integer(to_unsigned(1, 3)));
@@ -280,7 +273,7 @@ begin
         
         when s_SHA256_step1_4 =>
           if to_boolean(isSchedulable_SHA256_step1_4_a) then
-            -- Body of SHA256_step1_4_a (line 55)
+            -- Body of SHA256_step1_4_a (line 56)
             Kin_in := unsigned(Kin);
             local_h := h;
             local_e := e;
@@ -321,7 +314,7 @@ begin
             Kaddr   <= std_logic_vector(Kaddr_out);
             FSM <= s_SHA256_step1_4;
           elsif to_boolean(isSchedulable_SHA256_step1_4_b) then
-            -- Body of SHA256_step1_4_b (line 67)
+            -- Body of SHA256_step1_4_b (line 68)
             local_a := a;
             local_b := b;
             local_c := c;
@@ -346,47 +339,53 @@ begin
             H_i(to_integer(to_unsigned(6, 3)))  <= resize(resize(local_H_i5, 33) + resize(local_g, 33), 32);
             local_H_i6 := H_i(to_integer(to_unsigned(7, 3)));
             H_i(to_integer(to_unsigned(7, 3)))  <= resize(resize(local_H_i6, 33) + resize(local_h, 33), 32);
-            local_H_i7 := H_i(to_integer(to_unsigned(0, 3)));
+            FSM <= s_SHA256_step1_5;
+          end if;
+        
+        when s_SHA256_step1_5 =>
+          if to_boolean('1') then
+            -- Body of SHA256_step1_5 (line 80)
+            local_H_i := H_i(to_integer(to_unsigned(0, 3)));
             write(output, "H_i[0] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i7))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i))))
              & LF);
-            local_H_i8 := H_i(to_integer(to_unsigned(1, 3)));
+            local_H_i0 := H_i(to_integer(to_unsigned(1, 3)));
             write(output, "H_i[1] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i8))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i0))))
              & LF);
-            local_H_i9 := H_i(to_integer(to_unsigned(2, 3)));
+            local_H_i1 := H_i(to_integer(to_unsigned(2, 3)));
             write(output, "H_i[2] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i9))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i1))))
              & LF);
-            local_H_i10 := H_i(to_integer(to_unsigned(3, 3)));
+            local_H_i2 := H_i(to_integer(to_unsigned(3, 3)));
             write(output, "H_i[3] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i10))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i2))))
              & LF);
-            local_H_i11 := H_i(to_integer(to_unsigned(4, 3)));
+            local_H_i3 := H_i(to_integer(to_unsigned(4, 3)));
             write(output, "H_i[4] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i11))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i3))))
              & LF);
-            local_H_i12 := H_i(to_integer(to_unsigned(5, 3)));
+            local_H_i4 := H_i(to_integer(to_unsigned(5, 3)));
             write(output, "H_i[5] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i12))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i4))))
              & LF);
-            local_H_i13 := H_i(to_integer(to_unsigned(6, 3)));
+            local_H_i5 := H_i(to_integer(to_unsigned(6, 3)));
             write(output, "H_i[6] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i13))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i5))))
              & LF);
-            local_H_i14 := H_i(to_integer(to_unsigned(7, 3)));
+            local_H_i6 := H_i(to_integer(to_unsigned(7, 3)));
             write(output, "H_i[7] = "
-             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i14))))
+             & to_hstring_93(to_bitvector(std_logic_vector((local_H_i6))))
              & LF);
-            local_H_i15 := H_i(to_integer(to_unsigned(0, 3)));
-            local_H_i16 := H_i(to_integer(to_unsigned(1, 3)));
-            local_H_i17 := H_i(to_integer(to_unsigned(2, 3)));
-            local_H_i18 := H_i(to_integer(to_unsigned(3, 3)));
-            local_H_i19 := H_i(to_integer(to_unsigned(4, 3)));
-            local_H_i20 := H_i(to_integer(to_unsigned(5, 3)));
-            local_H_i21 := H_i(to_integer(to_unsigned(6, 3)));
-            local_H_i22 := H_i(to_integer(to_unsigned(7, 3)));
-            hash_out := (((((((((local_H_i15 & x"00000000000000000000000000000000000000000000000000000000")) or resize((local_H_i16 & x"000000000000000000000000000000000000000000000000"), 256)) or resize((local_H_i17 & x"0000000000000000000000000000000000000000"), 256)) or resize((local_H_i18 & x"00000000000000000000000000000000"), 256)) or resize((local_H_i19 & x"000000000000000000000000"), 256)) or resize((local_H_i20 & x"0000000000000000"), 256)) or resize((local_H_i21 & x"00000000"), 256)) or resize(local_H_i22, 256));
+            local_H_i7 := H_i(to_integer(to_unsigned(0, 3)));
+            local_H_i8 := H_i(to_integer(to_unsigned(1, 3)));
+            local_H_i9 := H_i(to_integer(to_unsigned(2, 3)));
+            local_H_i10 := H_i(to_integer(to_unsigned(3, 3)));
+            local_H_i11 := H_i(to_integer(to_unsigned(4, 3)));
+            local_H_i12 := H_i(to_integer(to_unsigned(5, 3)));
+            local_H_i13 := H_i(to_integer(to_unsigned(6, 3)));
+            local_H_i14 := H_i(to_integer(to_unsigned(7, 3)));
+            hash_out := (((((((((local_H_i7 & x"00000000000000000000000000000000000000000000000000000000")) or resize((local_H_i8 & x"000000000000000000000000000000000000000000000000"), 256)) or resize((local_H_i9 & x"0000000000000000000000000000000000000000"), 256)) or resize((local_H_i10 & x"00000000000000000000000000000000"), 256)) or resize((local_H_i11 & x"000000000000000000000000"), 256)) or resize((local_H_i12 & x"0000000000000000"), 256)) or resize((local_H_i13 & x"00000000"), 256)) or resize(local_H_i14, 256));
             hash   <= std_logic_vector(hash_out);
             hash_send <= '1';
             FSM <= s_SHA256_step1_0;
