@@ -32,13 +32,15 @@ const u32 K[64] = {
  */
 void main() {
 	for (t = 0; t < 16; t++) {
-		W[t] = msg.read;
-		print("W[", t, "] = ", W[t]);
+		u32 m = msg.read;
+		W[t] = m;
+		print("W[", t, "] = ", m);
 	}
 	
 	for (; t < 64; t++) {
-		W[t] = lcSigma1(W[t - 2]) + W[t - 7] + lcSigma0(W[t - 15]) + W[t - 16];
-		print("W[", t, "] = ", W[t]);
+		u32 temp = lcSigma1(W[t - 2]) + W[t - 7] + lcSigma0(W[t - 15]) + W[t - 16];
+		W[t] = temp;
+		print("W[", t, "] = ", temp);
 	}
 
 	H_i[0] = 0x6a09e667;
@@ -49,6 +51,8 @@ void main() {
 	H_i[5] = 0x9b05688c;
 	H_i[6] = 0x1f83d9ab;
 	H_i[7] = 0x5be0cd19;
+	
+	fence;
 
 	a = H_i[0];
 	b = H_i[1];
@@ -80,6 +84,8 @@ void main() {
 	H_i[5] += f;
 	H_i[6] += g;
 	H_i[7] += h;
+	
+	fence;
 	
 	print("H_i[0] = ", H_i[0]);
 	print("H_i[1] = ", H_i[1]);

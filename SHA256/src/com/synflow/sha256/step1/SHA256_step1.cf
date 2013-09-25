@@ -21,8 +21,9 @@ u32 W[64];
  */
 void main() {
 	for (t = 0; t < 16; t++) {
-		W[t] = msg.read;
-		print("W[", t, "] = ", W[t]);
+		u32 m = msg.read;
+		W[t] = m;
+		print("W[", t, "] = ", m);
 	}
 	
 	for (; t < 64; t++) {
@@ -73,6 +74,8 @@ void main() {
 	H_i[5] += f;
 	H_i[6] += g;
 	H_i[7] += h;
+	
+	fence;
 	
 	print("H_i[0] = ", H_i[0]);
 	print("H_i[1] = ", H_i[1]);
