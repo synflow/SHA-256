@@ -33,8 +33,6 @@ architecture rtl_TopShaStep2 of TopShaStep2 is
   ---------------------------------------------------------------------------
   -- Signals declaration
   ---------------------------------------------------------------------------
-  -- Module : romK
-  signal romK_dout      : std_logic_vector(31 downto 0);
   -- Module : computeW
   signal computeW_W      : std_logic_vector(31 downto 0);
   signal computeW_W_send : std_logic;
@@ -42,6 +40,8 @@ architecture rtl_TopShaStep2 of TopShaStep2 is
   signal counterT_start_o      : std_logic;
   signal counterT_msg_o      : std_logic_vector(31 downto 0);
   signal counterT_t_o      : std_logic_vector(5 downto 0);
+  -- Module : rom
+  signal rom_q      : std_logic_vector(31 downto 0);
   ---------------------------------------------------------------------------
 
 begin
@@ -53,19 +53,11 @@ begin
   port map (
     clock   => clock,
     reset_n => reset_n,
-    Kin      => romK_dout,
     W      => computeW_W,
     W_send => computeW_W_send,
+    Kin      => rom_q,
     hash      => hash,
     hash_send => hash_send
-  );
-  
-  romK : entity work.RomK
-  port map (
-    clock   => clock,
-    reset_n => reset_n,
-    addr      => counterT_t_o,
-    dout      => romK_dout
   );
   
   computeW : entity work.ComputeW
@@ -87,6 +79,14 @@ begin
     start_o      => counterT_start_o,
     msg_o      => counterT_msg_o,
     t_o      => counterT_t_o
+  );
+  
+  rom : entity work.TopShaStep2_rom
+  port map (
+    clock   => clock,
+    reset_n => reset_n,
+    address      => counterT_t_o,
+    q      => rom_q
   );
 
 

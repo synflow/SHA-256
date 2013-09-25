@@ -35,8 +35,8 @@ architecture rtl_TopShaStep1 of TopShaStep1 is
   ---------------------------------------------------------------------------
   -- Module : sHA256_step1
   signal sHA256_step1_Kaddr      : std_logic_vector(5 downto 0);
-  -- Module : romK
-  signal romK_dout      : std_logic_vector(31 downto 0);
+  -- Module : rom
+  signal rom_q      : std_logic_vector(31 downto 0);
   ---------------------------------------------------------------------------
 
 begin
@@ -48,20 +48,20 @@ begin
   port map (
     clock   => clock,
     reset_n => reset_n,
-    Kin      => romK_dout,
     msg      => msg,
     msg_send => msg_send,
+    Kin      => rom_q,
     hash      => hash,
     hash_send => hash_send,
     Kaddr      => sHA256_step1_Kaddr
   );
   
-  romK : entity work.RomK
+  rom : entity work.TopShaStep1_rom
   port map (
     clock   => clock,
     reset_n => reset_n,
-    addr      => sHA256_step1_Kaddr,
-    dout      => romK_dout
+    address      => sHA256_step1_Kaddr,
+    q      => rom_q
   );
 
 
