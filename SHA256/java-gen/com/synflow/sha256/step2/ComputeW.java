@@ -2,6 +2,8 @@ package com.synflow.sha256.step2;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.synflow.runtime.Entity;
 import com.synflow.runtime.Port;
@@ -15,12 +17,12 @@ final public class ComputeW implements Entity {
 		new Runner(ComputeW.class, args).run();
 	}
 
+
 	private final String _name;
 
-	// constants
-
-	// state variables
+	// fields
 	private int words[] = new int[16];
+	private Set<Integer> words_written = new HashSet<>();
 	private int t;
 
 
@@ -42,6 +44,10 @@ final public class ComputeW implements Entity {
 	@Override
 	public void commit() {
 		W.commit();
+	
+		if (!words_written.isEmpty()) {
+			words_written.clear();
+		}
 	}
 
 	@Override
@@ -59,7 +65,7 @@ final public class ComputeW implements Entity {
 		boolean start_in;
 		int msg_in;
 		int W_out;
-
+	
 		if (start.available()) {
 			boolean local_start = false;
 			start_in = start.peekBoolean(); // (line 19)
@@ -104,11 +110,15 @@ final public class ComputeW implements Entity {
 			if (local_t < 0x10) {
 				tmp_if = (((long) (m)) & 0xffffffffL); // (line 0)
 			} else {
+				assert !words_written.contains(0x1) : "trying to read words[0x1] before write has been committed";
 				local_words = words[0x1]; // (line 22)
 				call_lcSigma1 = lcSigma1(local_words); // (line 22)
+				assert !words_written.contains(0x6) : "trying to read words[0x6] before write has been committed";
 				local_words0 = words[0x6]; // (line 22)
+				assert !words_written.contains(0xe) : "trying to read words[0xe] before write has been committed";
 				local_words1 = words[0xe]; // (line 22)
 				call_lcSigma0 = lcSigma0(local_words1); // (line 22)
+				assert !words_written.contains(0xf) : "trying to read words[0xf] before write has been committed";
 				local_words2 = words[0xf]; // (line 22)
 				tmp_if = (((long) ((((long) ((((long) (call_lcSigma1)) & 0xffffffffL) + (((long) (local_words0)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_lcSigma0)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_words2)) & 0xffffffffL); // (line 0)
 			}
@@ -120,17 +130,19 @@ final public class ComputeW implements Entity {
 			t = ((((local_t1) & 0x3f) + 0x1) & 0x3f); // (line 25)
 			i = 0x0; // (line 0)
 			while (i < 0xf) {
+				assert !words_written.contains(((0xe - ((i) & 0x1f)) & 0x3f)) : "trying to read words[((0xe - ((i) & 0x1f)) & 0xf)] before write has been committed";
 				local_words3 = words[((0xe - ((i) & 0x1f)) & 0xf)]; // (line 29)
+				words_written.add(((0xf - ((i) & 0x1f)) & 0x3f));
 				words[((0xf - ((i) & 0x1f)) & 0xf)] = local_words3; // (line 29)
 				i = ((((i) & 0x1f) + 0x1) & 0x1f); // (line 0)
 			}
+			words_written.add(0x0);
 			words[0x0] = temp; // (line 31)
 			W.write(W_out);
 		
 			return;
 		}
 	}
-
 
 	@Override
 	public Entity[] getChildren() {

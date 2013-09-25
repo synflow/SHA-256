@@ -2,6 +2,8 @@ package com.synflow.sha256;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.synflow.runtime.Entity;
 import com.synflow.runtime.Port;
@@ -14,11 +16,10 @@ final public class Source implements Entity {
 		new Runner(Source.class, args).run();
 	}
 
+
 	private final String _name;
 
-	// constants
-
-	// state variables
+	// fields
 	private int Source_0_i;
 
 	private int _state;
@@ -37,6 +38,7 @@ final public class Source implements Entity {
 	@Override
 	public void commit() {
 		stimulus.commit();
+	
 	}
 
 	@Override
@@ -48,7 +50,7 @@ final public class Source implements Entity {
 	public void execute() {
 		boolean isSchedulable = false;
 		int stimulus_out;
-
+	
 		switch (_state) {
 		case 0:
 			if (true) {
@@ -99,7 +101,6 @@ final public class Source implements Entity {
 			break;
 		}
 	}
-
 
 	@Override
 	public Entity[] getChildren() {

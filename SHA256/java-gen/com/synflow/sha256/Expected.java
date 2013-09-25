@@ -2,6 +2,8 @@ package com.synflow.sha256;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.synflow.runtime.Entity;
 import com.synflow.runtime.Port;
@@ -14,11 +16,10 @@ final public class Expected implements Entity {
 		new Runner(Expected.class, args).run();
 	}
 
+
 	private final String _name;
 
-	// constants
-
-	// state variables
+	// fields
 
 	private int _state;
 
@@ -35,6 +36,7 @@ final public class Expected implements Entity {
 
 	@Override
 	public void commit() {
+	
 	}
 
 	@Override
@@ -48,7 +50,7 @@ final public class Expected implements Entity {
 	public void execute() {
 		boolean isSchedulable = false;
 		BigInteger hash_in;
-
+	
 		switch (_state) {
 		case 0:
 			if (hash.available()) {
@@ -74,7 +76,6 @@ final public class Expected implements Entity {
 			break;
 		}
 	}
-
 
 	@Override
 	public Entity[] getChildren() {

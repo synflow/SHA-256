@@ -2,6 +2,8 @@ package com.synflow.sha256.step2;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.synflow.runtime.Entity;
 import com.synflow.runtime.Port;
@@ -14,11 +16,10 @@ final public class CounterT implements Entity {
 		new Runner(CounterT.class, args).run();
 	}
 
+
 	private final String _name;
 
-	// constants
-
-	// state variables
+	// fields
 	private int t;
 
 
@@ -44,6 +45,7 @@ final public class CounterT implements Entity {
 		start_o.commit();
 		msg_o.commit();
 		t_o.commit();
+	
 	}
 
 	@Override
@@ -60,7 +62,7 @@ final public class CounterT implements Entity {
 		boolean start_o_out;
 		int msg_o_out;
 		int t_o_out;
-
+	
 		if (msg_i.available()) {
 			int local_t = 0;
 			msg_i_in = msg_i.peekInt(); // (line 18)
@@ -115,7 +117,6 @@ final public class CounterT implements Entity {
 			return;
 		}
 	}
-
 
 	@Override
 	public Entity[] getChildren() {
