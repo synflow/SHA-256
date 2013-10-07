@@ -16,7 +16,6 @@ final public class Expected implements Entity {
 		new Runner(Expected.class, args).run();
 	}
 
-
 	private final String _name;
 
 	// fields
@@ -29,10 +28,11 @@ final public class Expected implements Entity {
 	/**
 	 * constructor
 	 */
-	public Expected(String name, int flags) {
+	public Expected(String name, int _flags) {
 		this._name = name;
-		hash = new Port(this, "hash", 256, Port.SYNC | flags);
+		hash = new Port(this, "hash", 256, Port.SYNC | _flags);
 	}
+
 
 	@Override
 	public void commit() {
@@ -59,13 +59,13 @@ final public class Expected implements Entity {
 			}
 			if (isSchedulable) {
 				// action Expected_0 (line 12)
-				BigInteger dut_hash = BigInteger.ZERO;
+				BigInteger dut_hash_l = BigInteger.ZERO;
 				BigInteger local_hash = BigInteger.ZERO;
 				hash_in = hash.readBigInteger(); // (line 12)
 				local_hash = hash_in; // (line 12)
-				dut_hash = local_hash; // (line 0)
-				System.out.println(this + ": " + "read hash from dut: " + "0x" + dut_hash.toString(16)); // (line 13)
-				assert dut_hash.compareTo(new BigInteger(new byte[] {0, -70, 120, 22, -65, -113, 1, -49, -22, 65, 65, 64, -34, 93, -82, 34, 35, -80, 3, 97, -93, -106, 23, 122, -100, -76, 16, -1, 97, -14, 0, 21, -83})) == 0 : "dut_hash.compareTo(new BigInteger(new byte[] {0, -70, 120, 22, -65, -113, 1, -49, -22, 65, 65, 64, -34, 93, -82, 34, 35, -80, 3, 97, -93, -106, 23, 122, -100, -76, 16, -1, 97, -14, 0, 21, -83})) == 0"; // (line 14)
+				dut_hash_l = local_hash; // (line 0)
+				System.out.println(this + ": " + "read hash from dut: " + "0x" + dut_hash_l.toString(16)); // (line 13)
+				assert dut_hash_l.compareTo(new BigInteger(new byte[] {0, -70, 120, 22, -65, -113, 1, -49, -22, 65, 65, 64, -34, 93, -82, 34, 35, -80, 3, 97, -93, -106, 23, 122, -100, -76, 16, -1, 97, -14, 0, 21, -83})) == 0 : "dut_hash_l.compareTo(new BigInteger(new byte[] {0, -70, 120, 22, -65, -113, 1, -49, -22, 65, 65, 64, -34, 93, -82, 34, 35, -80, 3, 97, -93, -106, 23, 122, -100, -76, 16, -1, 97, -14, 0, 21, -83})) == 0"; // (line 14)
 				System.out.println(this + ": " + "assertion passed"); // (line 15)
 			
 				_state = 1;

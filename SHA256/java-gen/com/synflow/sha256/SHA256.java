@@ -17,7 +17,6 @@ final public class SHA256 implements Entity {
 		new Runner(SHA256.class, args).run();
 	}
 
-
 	private final String _name;
 
 	// fields
@@ -45,11 +44,12 @@ final public class SHA256 implements Entity {
 	/**
 	 * constructor
 	 */
-	public SHA256(String name, int flags) {
+	public SHA256(String name, int _flags) {
 		this._name = name;
-		msg = new Port(this, "msg", 32, Port.SYNC | flags);
-		hash = new Port(this, "hash", 256, Port.SYNC | flags);
+		msg = new Port(this, "msg", 32, Port.SYNC | _flags);
+		hash = new Port(this, "hash", 256, Port.SYNC | _flags);
 	}
+
 
 	@Override
 	public void commit() {
@@ -98,19 +98,19 @@ final public class SHA256 implements Entity {
 			}
 			if (isSchedulable) {
 				// action SHA256_1_a (line 35)
-				int m = 0;
+				int m_l = 0;
 				int local_msg = 0;
 				int local_t = 0;
 				int local_t0 = 0;
 				int local_t1 = 0;
 				msg_in = msg.readInt(); // (line 35)
 				local_msg = msg_in; // (line 35)
-				m = local_msg; // (line 0)
+				m_l = local_msg; // (line 0)
 				local_t = t; // (line 36)
 				W_written.add(((local_t) & 0x7f));
-				W[((local_t) & 0x3f)] = m; // (line 36)
+				W[((local_t) & 0x3f)] = m_l; // (line 36)
 				local_t0 = t; // (line 37)
-				System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t0) + "] = " + "0x" + Integer.toHexString(m)); // (line 37)
+				System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t0) + "] = " + "0x" + Integer.toHexString(m_l)); // (line 37)
 				local_t1 = t; // (line 0)
 				t = ((((local_t1) & 0x7f) + 0x1) & 0x7f); // (line 34)
 			
@@ -137,7 +137,7 @@ final public class SHA256 implements Entity {
 			}
 			if (isSchedulable) {
 				// action SHA256_2_a (line 41)
-				int temp = 0;
+				int temp_l = 0;
 				int local_W = 0;
 				int local_t = 0;
 				int call_lcSigma1 = 0;
@@ -165,12 +165,12 @@ final public class SHA256 implements Entity {
 				local_t2 = t; // (line 41)
 				assert !W_written.contains(((((local_t2) & 0x7f) - 0x10) & 0xff)) : "trying to read W[((((local_t2) & 0x7f) - 0x10) & 0x3f)] before write has been committed";
 				local_W2 = W[((((local_t2) & 0x7f) - 0x10) & 0x3f)]; // (line 41)
-				temp = ((int) ((((long) ((((long) ((((long) (call_lcSigma1)) & 0xffffffffL) + (((long) (local_W0)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_lcSigma0)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_W2)) & 0xffffffffL)) & 0xffffffff); // (line 0)
+				temp_l = ((int) ((((long) ((((long) ((((long) (call_lcSigma1)) & 0xffffffffL) + (((long) (local_W0)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_lcSigma0)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_W2)) & 0xffffffffL)) & 0xffffffff); // (line 0)
 				local_t3 = t; // (line 42)
 				W_written.add(((local_t3) & 0x7f));
-				W[((local_t3) & 0x3f)] = temp; // (line 42)
+				W[((local_t3) & 0x3f)] = temp_l; // (line 42)
 				local_t4 = t; // (line 43)
-				System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t4) + "] = " + "0x" + Integer.toHexString(temp)); // (line 43)
+				System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t4) + "] = " + "0x" + Integer.toHexString(temp_l)); // (line 43)
 				local_t5 = t; // (line 0)
 				t = ((((local_t5) & 0x7f) + 0x1) & 0x7f); // (line 40)
 			
@@ -257,7 +257,7 @@ final public class SHA256 implements Entity {
 			}
 			if (isSchedulable) {
 				// action SHA256_4_a (line 67)
-				int T1 = 0;
+				int T1_l = 0;
 				int local_h = 0;
 				int local_e = 0;
 				int call_ucSigma1 = 0;
@@ -269,7 +269,7 @@ final public class SHA256 implements Entity {
 				int local_t = 0;
 				int local_W = 0;
 				int local_t0 = 0;
-				int T2 = 0;
+				int T2_l = 0;
 				int local_a = 0;
 				int call_ucSigma0 = 0;
 				int local_a0 = 0;
@@ -296,14 +296,14 @@ final public class SHA256 implements Entity {
 				local_t0 = t; // (line 67)
 				assert !W_written.contains(((local_t0) & 0x7f)) : "trying to read W[((local_t0) & 0x3f)] before write has been committed";
 				local_W = W[((local_t0) & 0x3f)]; // (line 67)
-				T1 = ((int) ((((long) ((((long) ((((long) ((((long) (local_h)) & 0xffffffffL) + (((long) (call_ucSigma1)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_Ch)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_K)) & 0xffffffffL))) & 0x7ffffffffL) + (((long) (local_W)) & 0xffffffffL)) & 0xffffffff); // (line 0)
+				T1_l = ((int) ((((long) ((((long) ((((long) ((((long) (local_h)) & 0xffffffffL) + (((long) (call_ucSigma1)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_Ch)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_K)) & 0xffffffffL))) & 0x7ffffffffL) + (((long) (local_W)) & 0xffffffffL)) & 0xffffffff); // (line 0)
 				local_a = a; // (line 68)
 				call_ucSigma0 = ucSigma0(local_a); // (line 68)
 				local_a0 = a; // (line 68)
 				local_b = b; // (line 68)
 				local_c = c; // (line 68)
 				call_Maj = Maj(local_a0, local_b, local_c); // (line 68)
-				T2 = ((int) ((((long) (call_ucSigma0)) & 0xffffffffL) + (((long) (call_Maj)) & 0xffffffffL)) & 0xffffffff); // (line 0)
+				T2_l = ((int) ((((long) (call_ucSigma0)) & 0xffffffffL) + (((long) (call_Maj)) & 0xffffffffL)) & 0xffffffff); // (line 0)
 				local_g0 = g; // (line 69)
 				h = local_g0; // (line 69)
 				local_f0 = f; // (line 70)
@@ -311,14 +311,14 @@ final public class SHA256 implements Entity {
 				local_e1 = e; // (line 71)
 				f = local_e1; // (line 71)
 				local_d = d; // (line 72)
-				e = ((int) ((((long) (local_d)) & 0xffffffffL) + (((long) (T1)) & 0xffffffffL)) & 0xffffffff); // (line 72)
+				e = ((int) ((((long) (local_d)) & 0xffffffffL) + (((long) (T1_l)) & 0xffffffffL)) & 0xffffffff); // (line 72)
 				local_c0 = c; // (line 73)
 				d = local_c0; // (line 73)
 				local_b0 = b; // (line 74)
 				c = local_b0; // (line 74)
 				local_a1 = a; // (line 75)
 				b = local_a1; // (line 75)
-				a = ((int) ((((long) (T1)) & 0xffffffffL) + (((long) (T2)) & 0xffffffffL)) & 0xffffffff); // (line 76)
+				a = ((int) ((((long) (T1_l)) & 0xffffffffL) + (((long) (T2_l)) & 0xffffffffL)) & 0xffffffff); // (line 76)
 				local_t1 = t; // (line 0)
 				t = ((((local_t1) & 0x7f) + 0x1) & 0x7f); // (line 66)
 			

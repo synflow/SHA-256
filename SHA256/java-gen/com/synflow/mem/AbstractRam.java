@@ -23,7 +23,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE
  */
-package com.synflow.ram;
+package com.synflow.mem;
 
 import static java.math.BigInteger.ZERO;
 

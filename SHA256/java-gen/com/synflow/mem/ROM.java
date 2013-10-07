@@ -23,11 +23,10 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE
  */
-package com.synflow.rom;
+package com.synflow.mem;
 
 import java.math.BigInteger;
 
-import com.synflow.ram.AbstractRam;
 import com.synflow.runtime.Port;
 
 /**

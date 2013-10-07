@@ -25,7 +25,7 @@
  */
 package com.synflow.fifo;
 
-import com.synflow.ram.AbstractRam;
+import com.synflow.mem.AbstractRam;
 import com.synflow.runtime.Port;
 
 /**

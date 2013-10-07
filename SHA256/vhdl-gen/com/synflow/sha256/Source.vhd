@@ -39,7 +39,7 @@ architecture rtl_Source of Source is
   -----------------------------------------------------------------------------
   -- Signal(s) and Constant(s)
   -----------------------------------------------------------------------------
-  signal Source_0_i : unsigned(5 downto 0);
+  signal Source_0_i_l : unsigned(5 downto 0);
 
 
   -----------------------------------------------------------------------------
@@ -53,18 +53,18 @@ architecture rtl_Source of Source is
   -----------------------------------------------------------------------------
   -- Scheduler of Source_1_a (line 15)
   impure function isSchedulable_Source_1_a return std_logic is
-    variable local_i : unsigned(5 downto 0);
+    variable local_i_l : unsigned(5 downto 0);
   begin
-    local_i := Source_0_i;
-    return to_std_logic((local_i) < "001110");
+    local_i_l := Source_0_i_l;
+    return to_std_logic((local_i_l) < "001110");
   end function isSchedulable_Source_1_a;
   
   -- Scheduler of Source_1_b (line 17)
   impure function isSchedulable_Source_1_b return std_logic is
-    variable local_i : unsigned(5 downto 0);
+    variable local_i_l : unsigned(5 downto 0);
   begin
-    local_i := Source_0_i;
-    return (not (to_std_logic((local_i) < "001110")));
+    local_i_l := Source_0_i_l;
+    return (not (to_std_logic((local_i_l) < "001110")));
   end function isSchedulable_Source_1_b;
   
 
@@ -74,11 +74,11 @@ begin
   -- Synchronous process
   -----------------------------------------------------------------------------
   Source_execute : process (reset_n, clock) is
-    variable local_i : unsigned(5 downto 0);
+    variable local_i_l : unsigned(5 downto 0);
     variable stimulus_out : unsigned(31 downto 0) :=  (others => '0');
   begin
     if reset_n = '0' then
-      Source_0_i <= "000000";
+      Source_0_i_l <= "000000";
       stimulus <= (others => '0');
       stimulus_send <= '0';
       FSM    <= s_Source_0;
@@ -91,7 +91,7 @@ begin
           if to_boolean('1') then
             -- Body of Source_0 (line 12)
             stimulus_out := x"61626380";
-            Source_0_i <= "000000";
+            Source_0_i_l <= "000000";
             stimulus   <= std_logic_vector(stimulus_out);
             stimulus_send <= '1';
             FSM <= s_Source_1;
@@ -100,10 +100,10 @@ begin
         when s_Source_1 =>
           if to_boolean(isSchedulable_Source_1_a) then
             -- Body of Source_1_a (line 15)
-            local_i := Source_0_i;
+            local_i_l := Source_0_i_l;
             stimulus_out := x"00000000";
-            local_i := resize(resize(local_i, 7) + "0000001", 6);
-            Source_0_i <= (local_i);
+            local_i_l := resize(resize(local_i_l, 7) + "0000001", 6);
+            Source_0_i_l <= (local_i_l);
             stimulus   <= std_logic_vector(stimulus_out);
             stimulus_send <= '1';
             FSM <= s_Source_1;

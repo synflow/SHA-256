@@ -23,46 +23,49 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE
  */
-package com.synflow.ram;
+package com.synflow.mem;
 
 import com.synflow.runtime.Port;
 
 /**
- * This class defines a single-port RAM.
+ * This class defines a dual-port RAM.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Single_Port_RAM extends AbstractRam {
+public class Dual_Port_RAM extends AbstractRam {
 
-	private Port address;
+	private Port rd_address;
 
-	public Single_Port_RAM(String name, int flags, int depth, int width) {
+	private Port wr_address;
+
+	public Dual_Port_RAM(String name, int flags, int depth, int width) {
 		super(name, flags, depth, width);
 	}
 
 	@Override
 	public void connect(Port... ports) {
-		this.address = ports[0];
-		this.data = ports[1];
-
-		address.connect();
+		this.rd_address = ports[0];
+		this.wr_address = ports[1];
+		this.data = ports[2];
+		
+		rd_address.connect();
+		wr_address.connect();
 		data.connect();
 	}
 
 	@Override
 	public void execute() {
-		int addr = address.readInt();
 		if (data.available()) {
-			writeDataToArray(addr);
+			writeDataToArray(wr_address.readInt());
 		}
 
-		readDataFromArray(addr);
+		readDataFromArray(rd_address.readInt());
 	}
 
 	@Override
 	public Port[] getInputs() {
-		return new Port[] { address, data };
+		return new Port[] { data, rd_address, wr_address };
 	}
 
 	@Override

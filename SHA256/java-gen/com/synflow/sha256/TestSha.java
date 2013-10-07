@@ -28,15 +28,15 @@ final public class TestSha implements Entity {
 	/**
 	 * constructor
 	 */
-	public TestSha(String name, int flags) {
+	public TestSha(String name, int _flags) {
 		this._name = name;
 
 		// create input ports
 
 		// create instances
-		source = new Source("source", flags);
-		sha256 = new SHA256("sha256", flags);
-		expected = new Expected("expected", flags);
+		source = new Source("source", _flags);
+		sha256 = new SHA256("sha256", _flags);
+		expected = new Expected("expected", _flags);
 	}
 
 	@Override

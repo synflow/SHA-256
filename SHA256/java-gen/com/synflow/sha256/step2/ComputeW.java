@@ -17,7 +17,6 @@ final public class ComputeW implements Entity {
 		new Runner(ComputeW.class, args).run();
 	}
 
-
 	private final String _name;
 
 	// fields
@@ -34,12 +33,13 @@ final public class ComputeW implements Entity {
 	/**
 	 * constructor
 	 */
-	public ComputeW(String name, int flags) {
+	public ComputeW(String name, int _flags) {
 		this._name = name;
-		start = new Port(this, "start", 1, flags);
-		msg = new Port(this, "msg", 32, flags);
-		W = new Port(this, "W", 32, Port.SYNC | flags);
+		start = new Port(this, "start", 1, _flags);
+		msg = new Port(this, "msg", 32, _flags);
+		W = new Port(this, "W", 32, Port.SYNC | _flags);
 	}
+
 
 	@Override
 	public void commit() {
@@ -87,9 +87,9 @@ final public class ComputeW implements Entity {
 		}
 		if (isSchedulable) {
 			// action ComputeW_0_b (line 20)
-			int m = 0;
+			int m_l = 0;
 			int local_msg = 0;
-			int temp = 0;
+			int temp_l = 0;
 			int local_t = 0;
 			long tmp_if = 0;
 			int local_words = 0;
@@ -100,15 +100,15 @@ final public class ComputeW implements Entity {
 			int local_words2 = 0;
 			int local_t0 = 0;
 			int local_t1 = 0;
-			int i = 0;
+			int i_l = 0;
 			int local_words3 = 0;
 			msg_in = msg.readInt(); // (line 20)
 			start_in = start.readBoolean(); // (line 20)
 			local_msg = msg_in; // (line 21)
-			m = local_msg; // (line 0)
+			m_l = local_msg; // (line 0)
 			local_t = t; // (line 22)
 			if (local_t < 0x10) {
-				tmp_if = (((long) (m)) & 0xffffffffL); // (line 0)
+				tmp_if = (((long) (m_l)) & 0xffffffffL); // (line 0)
 			} else {
 				assert !words_written.contains(0x1) : "trying to read words[0x1] before write has been committed";
 				local_words = words[0x1]; // (line 22)
@@ -122,22 +122,22 @@ final public class ComputeW implements Entity {
 				local_words2 = words[0xf]; // (line 22)
 				tmp_if = (((long) ((((long) ((((long) (call_lcSigma1)) & 0xffffffffL) + (((long) (local_words0)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_lcSigma0)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_words2)) & 0xffffffffL); // (line 0)
 			}
-			temp = ((int) (tmp_if) & 0xffffffff); // (line 0)
+			temp_l = ((int) (tmp_if) & 0xffffffff); // (line 0)
 			local_t0 = t; // (line 23)
-			System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t0) + "] = " + "0x" + Integer.toHexString(temp)); // (line 23)
-			W_out = temp; // (line 24)
+			System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t0) + "] = " + "0x" + Integer.toHexString(temp_l)); // (line 23)
+			W_out = temp_l; // (line 24)
 			local_t1 = t; // (line 0)
 			t = ((((local_t1) & 0x3f) + 0x1) & 0x3f); // (line 25)
-			i = 0x0; // (line 0)
-			while (i < 0xf) {
-				assert !words_written.contains(((0xe - ((i) & 0x1f)) & 0x3f)) : "trying to read words[((0xe - ((i) & 0x1f)) & 0xf)] before write has been committed";
-				local_words3 = words[((0xe - ((i) & 0x1f)) & 0xf)]; // (line 29)
-				words_written.add(((0xf - ((i) & 0x1f)) & 0x3f));
-				words[((0xf - ((i) & 0x1f)) & 0xf)] = local_words3; // (line 29)
-				i = ((((i) & 0x1f) + 0x1) & 0x1f); // (line 0)
+			i_l = 0x0; // (line 0)
+			while (i_l < 0xf) {
+				assert !words_written.contains(((0xe - ((i_l) & 0x1f)) & 0x3f)) : "trying to read words[((0xe - ((i_l) & 0x1f)) & 0xf)] before write has been committed";
+				local_words3 = words[((0xe - ((i_l) & 0x1f)) & 0xf)]; // (line 29)
+				words_written.add(((0xf - ((i_l) & 0x1f)) & 0x3f));
+				words[((0xf - ((i_l) & 0x1f)) & 0xf)] = local_words3; // (line 29)
+				i_l = ((((i_l) & 0x1f) + 0x1) & 0x1f); // (line 0)
 			}
 			words_written.add(0x0);
-			words[0x0] = temp; // (line 31)
+			words[0x0] = temp_l; // (line 31)
 			W.write(W_out);
 		
 			return;

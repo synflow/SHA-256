@@ -16,11 +16,10 @@ final public class Source implements Entity {
 		new Runner(Source.class, args).run();
 	}
 
-
 	private final String _name;
 
 	// fields
-	private int Source_0_i;
+	private int Source_0_i_l;
 
 	private int _state;
 
@@ -30,10 +29,11 @@ final public class Source implements Entity {
 	/**
 	 * constructor
 	 */
-	public Source(String name, int flags) {
+	public Source(String name, int _flags) {
 		this._name = name;
-		stimulus = new Port(this, "stimulus", 32, Port.SYNC | flags);
+		stimulus = new Port(this, "stimulus", 32, Port.SYNC | _flags);
 	}
+
 
 	@Override
 	public void commit() {
@@ -59,7 +59,7 @@ final public class Source implements Entity {
 			if (isSchedulable) {
 				// action Source_0 (line 12)
 				stimulus_out = 0x61626380; // (line 12)
-				Source_0_i = 0x0; // (line 14)
+				Source_0_i_l = 0x0; // (line 14)
 				stimulus.write(stimulus_out);
 			
 				_state = 1;
@@ -68,25 +68,25 @@ final public class Source implements Entity {
 			break;
 		case 1:
 			if (true) {
-				int local_i = 0;
-				local_i = Source_0_i; // (line 0)
-				isSchedulable = local_i < 0xe;
+				int local_i_l = 0;
+				local_i_l = Source_0_i_l; // (line 0)
+				isSchedulable = local_i_l < 0xe;
 			}
 			if (isSchedulable) {
 				// action Source_1_a (line 15)
-				int local_i = 0;
+				int local_i_l = 0;
 				stimulus_out = 0x0; // (line 15)
-				local_i = Source_0_i; // (line 0)
-				Source_0_i = ((((local_i) & 0x3f) + 0x1) & 0x3f); // (line 14)
+				local_i_l = Source_0_i_l; // (line 0)
+				Source_0_i_l = ((((local_i_l) & 0x3f) + 0x1) & 0x3f); // (line 14)
 				stimulus.write(stimulus_out);
 			
 				_state = 1;
 				return;
 			}
 			if (true) {
-				int local_i = 0;
-				local_i = Source_0_i; // (line 0)
-				isSchedulable = !(local_i < 0xe);
+				int local_i_l = 0;
+				local_i_l = Source_0_i_l; // (line 0)
+				isSchedulable = !(local_i_l < 0xe);
 			}
 			if (isSchedulable) {
 				// action Source_1_b (line 17)

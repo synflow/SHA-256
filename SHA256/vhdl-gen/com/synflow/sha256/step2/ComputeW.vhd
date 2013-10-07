@@ -73,9 +73,9 @@ begin
   -- Synchronous process
   -----------------------------------------------------------------------------
   ComputeW_execute : process (reset_n, clock) is
-    variable m : unsigned(31 downto 0);
+    variable m_l : unsigned(31 downto 0);
     variable local_msg : unsigned(31 downto 0);
-    variable temp : unsigned(31 downto 0);
+    variable temp_l : unsigned(31 downto 0);
     variable local_t : unsigned(5 downto 0);
     variable tmp_if : unsigned(34 downto 0);
     variable local_words : unsigned(31 downto 0);
@@ -84,7 +84,7 @@ begin
     variable local_words1 : unsigned(31 downto 0);
     variable call_lcSigma0 : unsigned(31 downto 0);
     variable local_words2 : unsigned(31 downto 0);
-    variable i : unsigned(4 downto 0);
+    variable i_l : unsigned(4 downto 0);
     variable local_words3 : unsigned(31 downto 0);
     variable start_in  : std_logic;
     variable msg_in  : unsigned(31 downto 0);
@@ -106,9 +106,9 @@ begin
         msg_in := unsigned(msg);
         local_t := t;
         local_msg := msg_in;
-        m := (local_msg);
+        m_l := (local_msg);
         if ((local_t) < "010000") then
-          tmp_if := resize(m, 35);
+          tmp_if := resize(m_l, 35);
         else
           local_words := words(to_integer(to_unsigned(1, 4)));
           call_lcSigma1 := resize(lcSigma1((local_words)), 32);
@@ -118,21 +118,17 @@ begin
           local_words2 := words(to_integer(to_unsigned(15, 4)));
           tmp_if := (resize(resize(resize(call_lcSigma1, 33) + resize(local_words0, 33), 34) + resize(call_lcSigma0, 34), 35) + resize(local_words2, 35));
         end if;
-        temp := resize(tmp_if, 32);
-        write(output, "W["
-         & to_hstring_93(to_bitvector(std_logic_vector((local_t))))
-         & "] = "
-         & to_hstring_93(to_bitvector(std_logic_vector((temp))))
-         & LF);
-        W_out := (temp);
+        temp_l := resize(tmp_if, 32);
+        write(output, "W[" & to_hstring_93(to_bitvector(std_logic_vector((local_t)))) & "] = " & to_hstring_93(to_bitvector(std_logic_vector((temp_l)))) & LF);
+        W_out := (temp_l);
         local_t := resize(resize(local_t, 7) + "0000001", 6);
-        i := "00000";
-        while ((i) < "01111") loop
-          local_words3 := words(to_integer(resize("001110" - resize(i, 6), 4)));
-          words(to_integer(resize("001111" - resize(i, 6), 4)))  <= (local_words3);
-          i := resize(resize(i, 6) + "000001", 5);
+        i_l := "00000";
+        while ((i_l) < "01111") loop
+          local_words3 := words(to_integer(resize("001110" - resize(i_l, 6), 4)));
+          words(to_integer(resize("001111" - resize(i_l, 6), 4)))  <= (local_words3);
+          i_l := resize(resize(i_l, 6) + "000001", 5);
         end loop;
-        words(to_integer(to_unsigned(0, 4)))  <= (temp);
+        words(to_integer(to_unsigned(0, 4)))  <= (temp_l);
         t <= (local_t);
         W   <= std_logic_vector(W_out);
         W_send <= '1';

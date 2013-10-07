@@ -17,7 +17,6 @@ final public class SHA256_step1 implements Entity {
 		new Runner(SHA256_step1.class, args).run();
 	}
 
-
 	private final String _name;
 
 	// fields
@@ -46,13 +45,14 @@ final public class SHA256_step1 implements Entity {
 	/**
 	 * constructor
 	 */
-	public SHA256_step1(String name, int flags) {
+	public SHA256_step1(String name, int _flags) {
 		this._name = name;
-		msg = new Port(this, "msg", 32, Port.SYNC | flags);
-		Kin = new Port(this, "Kin", 32, flags);
-		hash = new Port(this, "hash", 256, Port.SYNC | flags);
-		Kaddr = new Port(this, "Kaddr", 6, flags);
+		msg = new Port(this, "msg", 32, Port.SYNC | _flags);
+		Kin = new Port(this, "Kin", 32, _flags);
+		hash = new Port(this, "hash", 256, Port.SYNC | _flags);
+		Kaddr = new Port(this, "Kaddr", 6, _flags);
 	}
+
 
 	@Override
 	public void commit() {
@@ -106,19 +106,19 @@ final public class SHA256_step1 implements Entity {
 			}
 			if (isSchedulable) {
 				// action SHA256_step1_1_a (line 24)
-				int m = 0;
+				int m_l = 0;
 				int local_msg = 0;
 				int local_t = 0;
 				int local_t0 = 0;
 				int local_t1 = 0;
 				msg_in = msg.readInt(); // (line 24)
 				local_msg = msg_in; // (line 24)
-				m = local_msg; // (line 0)
+				m_l = local_msg; // (line 0)
 				local_t = t; // (line 25)
 				W_written.add(((local_t) & 0x7f));
-				W[((local_t) & 0x3f)] = m; // (line 25)
+				W[((local_t) & 0x3f)] = m_l; // (line 25)
 				local_t0 = t; // (line 26)
-				System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t0) + "] = " + "0x" + Integer.toHexString(m)); // (line 26)
+				System.out.println(this + ": " + "W[" + "0x" + Integer.toHexString(local_t0) + "] = " + "0x" + Integer.toHexString(m_l)); // (line 26)
 				local_t1 = t; // (line 0)
 				t = ((((local_t1) & 0x7f) + 0x1) & 0x7f); // (line 23)
 			
@@ -265,7 +265,7 @@ final public class SHA256_step1 implements Entity {
 			}
 			if (isSchedulable) {
 				// action SHA256_step1_4_a (line 56)
-				int T1 = 0;
+				int T1_l = 0;
 				int local_h = 0;
 				int local_e = 0;
 				int call_ucSigma1 = 0;
@@ -276,7 +276,7 @@ final public class SHA256_step1 implements Entity {
 				int local_Kin = 0;
 				int local_W = 0;
 				int local_t = 0;
-				int T2 = 0;
+				int T2_l = 0;
 				int local_a = 0;
 				int call_ucSigma0 = 0;
 				int local_a0 = 0;
@@ -304,14 +304,14 @@ final public class SHA256_step1 implements Entity {
 				local_t = t; // (line 56)
 				assert !W_written.contains(((local_t) & 0x7f)) : "trying to read W[((local_t) & 0x3f)] before write has been committed";
 				local_W = W[((local_t) & 0x3f)]; // (line 56)
-				T1 = ((int) ((((long) ((((long) ((((long) ((((long) (local_h)) & 0xffffffffL) + (((long) (call_ucSigma1)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_Ch)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_Kin)) & 0xffffffffL))) & 0x7ffffffffL) + (((long) (local_W)) & 0xffffffffL)) & 0xffffffff); // (line 0)
+				T1_l = ((int) ((((long) ((((long) ((((long) ((((long) (local_h)) & 0xffffffffL) + (((long) (call_ucSigma1)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_Ch)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (local_Kin)) & 0xffffffffL))) & 0x7ffffffffL) + (((long) (local_W)) & 0xffffffffL)) & 0xffffffff); // (line 0)
 				local_a = a; // (line 57)
 				call_ucSigma0 = ucSigma0(local_a); // (line 57)
 				local_a0 = a; // (line 57)
 				local_b = b; // (line 57)
 				local_c = c; // (line 57)
 				call_Maj = Maj(local_a0, local_b, local_c); // (line 57)
-				T2 = ((int) ((((long) (call_ucSigma0)) & 0xffffffffL) + (((long) (call_Maj)) & 0xffffffffL)) & 0xffffffff); // (line 0)
+				T2_l = ((int) ((((long) (call_ucSigma0)) & 0xffffffffL) + (((long) (call_Maj)) & 0xffffffffL)) & 0xffffffff); // (line 0)
 				local_g0 = g; // (line 58)
 				h = local_g0; // (line 58)
 				local_f0 = f; // (line 59)
@@ -319,14 +319,14 @@ final public class SHA256_step1 implements Entity {
 				local_e1 = e; // (line 60)
 				f = local_e1; // (line 60)
 				local_d = d; // (line 61)
-				e = ((int) ((((long) (local_d)) & 0xffffffffL) + (((long) (T1)) & 0xffffffffL)) & 0xffffffff); // (line 61)
+				e = ((int) ((((long) (local_d)) & 0xffffffffL) + (((long) (T1_l)) & 0xffffffffL)) & 0xffffffff); // (line 61)
 				local_c0 = c; // (line 62)
 				d = local_c0; // (line 62)
 				local_b0 = b; // (line 63)
 				c = local_b0; // (line 63)
 				local_a1 = a; // (line 64)
 				b = local_a1; // (line 64)
-				a = ((int) ((((long) (T1)) & 0xffffffffL) + (((long) (T2)) & 0xffffffffL)) & 0xffffffff); // (line 65)
+				a = ((int) ((((long) (T1_l)) & 0xffffffffL) + (((long) (T2_l)) & 0xffffffffL)) & 0xffffffff); // (line 65)
 				local_t0 = t; // (line 66)
 				Kaddr_out = ((((local_t0) & 0x7f) + 0x2) & 0x3f); // (line 66)
 				local_t1 = t; // (line 0)

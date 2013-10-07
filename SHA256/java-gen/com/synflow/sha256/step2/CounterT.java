@@ -16,7 +16,6 @@ final public class CounterT implements Entity {
 		new Runner(CounterT.class, args).run();
 	}
 
-
 	private final String _name;
 
 	// fields
@@ -32,13 +31,14 @@ final public class CounterT implements Entity {
 	/**
 	 * constructor
 	 */
-	public CounterT(String name, int flags) {
+	public CounterT(String name, int _flags) {
 		this._name = name;
-		msg_i = new Port(this, "msg_i", 32, Port.SYNC | flags);
-		start_o = new Port(this, "start_o", 1, flags);
-		msg_o = new Port(this, "msg_o", 32, flags);
-		t_o = new Port(this, "t_o", 6, flags);
+		msg_i = new Port(this, "msg_i", 32, Port.SYNC | _flags);
+		start_o = new Port(this, "start_o", 1, _flags);
+		msg_o = new Port(this, "msg_o", 32, _flags);
+		t_o = new Port(this, "t_o", 6, _flags);
 	}
+
 
 	@Override
 	public void commit() {

@@ -28,15 +28,15 @@ final public class TestShaStep1 implements Entity {
 	/**
 	 * constructor
 	 */
-	public TestShaStep1(String name, int flags) {
+	public TestShaStep1(String name, int _flags) {
 		this._name = name;
 
 		// create input ports
 
 		// create instances
-		source = new Source("source", flags);
-		topShaStep1 = new TopShaStep1("topShaStep1", flags);
-		expected = new Expected("expected", flags);
+		source = new Source("source", _flags);
+		topShaStep1 = new TopShaStep1("topShaStep1", _flags);
+		expected = new Expected("expected", _flags);
 	}
 
 	@Override

@@ -81,6 +81,7 @@ begin
     if reset_n = '0' then
       t <= "0000000";
       start_o <= '0';
+      msg_o <= (others => '0');
       t_o <= (others => '0');
     --
     elsif rising_edge(clock) then

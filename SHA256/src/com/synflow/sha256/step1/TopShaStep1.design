@@ -233,7 +233,7 @@
     <vertices xsi:type="net.sf.orcc.df:Port" label="hash" incoming="/1/@edges.1">
       <attributes name="direction" stringValue="out"/>
     </vertices>
-    <vertices xsi:type="com.synflow.core.model:Reference" label="rom" incoming="/1/@edges.2" outgoing="/1/@edges.3" className="com.synflow.rom.ROM">
+    <vertices xsi:type="com.synflow.core.model:Reference" label="rom" incoming="/1/@edges.2" outgoing="/1/@edges.3" className="com.synflow.mem.ROM">
       <arguments xsi:type="net.sf.orcc.ir:ExprInt" value="32">
         <type xsi:type="net.sf.orcc.ir:TypeUint" size="6"/>
       </arguments>

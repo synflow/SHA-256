@@ -57,7 +57,7 @@ begin
   -- Synchronous process
   -----------------------------------------------------------------------------
   Expected_execute : process (reset_n, clock) is
-    variable dut_hash : unsigned(255 downto 0);
+    variable dut_hash_l : unsigned(255 downto 0);
     variable local_hash : unsigned(255 downto 0);
     variable hash_in  : unsigned(255 downto 0);
   begin
@@ -72,13 +72,10 @@ begin
             -- Body of Expected_0 (line 12)
             hash_in := unsigned(hash);
             local_hash := hash_in;
-            dut_hash := (local_hash);
-            write(output, "read hash from dut: "
-             & to_hstring_93(to_bitvector(std_logic_vector((dut_hash))))
-             & LF);
-            assert (dut_hash) = x"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" report "(dut_hash) = x'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'" severity failure;
-            write(output, "assertion passed"
-             & LF);
+            dut_hash_l := (local_hash);
+            write(output, "read hash from dut: " & to_hstring_93(to_bitvector(std_logic_vector((dut_hash_l)))) & LF);
+            assert (dut_hash_l) = x"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" report "(dut_hash_l) = x'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'" severity failure;
+            write(output, "assertion passed" & LF);
             FSM <= s_Expected_1;
           end if;
         

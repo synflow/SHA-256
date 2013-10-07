@@ -17,7 +17,6 @@ final public class SHA256_step2 implements Entity {
 		new Runner(SHA256_step2.class, args).run();
 	}
 
-
 	private final String _name;
 
 	// fields
@@ -43,12 +42,13 @@ final public class SHA256_step2 implements Entity {
 	/**
 	 * constructor
 	 */
-	public SHA256_step2(String name, int flags) {
+	public SHA256_step2(String name, int _flags) {
 		this._name = name;
-		W = new Port(this, "W", 32, Port.SYNC | flags);
-		Kin = new Port(this, "Kin", 32, flags);
-		hash = new Port(this, "hash", 256, Port.SYNC | flags);
+		W = new Port(this, "W", 32, Port.SYNC | _flags);
+		Kin = new Port(this, "Kin", 32, _flags);
+		hash = new Port(this, "hash", 256, Port.SYNC | _flags);
 	}
+
 
 	@Override
 	public void commit() {
@@ -157,10 +157,10 @@ final public class SHA256_step2 implements Entity {
 			}
 			if (isSchedulable) {
 				// action SHA256_step2_2_a (line 42)
-				int k = 0;
+				int k_l = 0;
 				int local_Kin = 0;
 				int local_t = 0;
-				int T1 = 0;
+				int T1_l = 0;
 				int local_h = 0;
 				int local_e = 0;
 				int call_ucSigma1 = 0;
@@ -169,7 +169,7 @@ final public class SHA256_step2 implements Entity {
 				int local_g = 0;
 				int call_Ch = 0;
 				int local_W = 0;
-				int T2 = 0;
+				int T2_l = 0;
 				int local_a = 0;
 				int call_ucSigma0 = 0;
 				int local_a0 = 0;
@@ -187,9 +187,9 @@ final public class SHA256_step2 implements Entity {
 				Kin_in = Kin.readInt(); // (line 42)
 				W_in = W.readInt(); // (line 42)
 				local_Kin = Kin_in; // (line 42)
-				k = local_Kin; // (line 0)
+				k_l = local_Kin; // (line 0)
 				local_t = t; // (line 43)
-				System.out.println(this + ": " + "K[" + "0x" + Integer.toHexString(local_t) + "] = " + "0x" + Integer.toHexString(k)); // (line 43)
+				System.out.println(this + ": " + "K[" + "0x" + Integer.toHexString(local_t) + "] = " + "0x" + Integer.toHexString(k_l)); // (line 43)
 				local_h = h; // (line 44)
 				local_e = e; // (line 44)
 				call_ucSigma1 = ucSigma1(local_e); // (line 44)
@@ -198,14 +198,14 @@ final public class SHA256_step2 implements Entity {
 				local_g = g; // (line 44)
 				call_Ch = Ch(local_e0, local_f, local_g); // (line 44)
 				local_W = W_in; // (line 44)
-				T1 = ((int) ((((long) ((((long) ((((long) ((((long) (local_h)) & 0xffffffffL) + (((long) (call_ucSigma1)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_Ch)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (k)) & 0xffffffffL))) & 0x7ffffffffL) + (((long) (local_W)) & 0xffffffffL)) & 0xffffffff); // (line 0)
+				T1_l = ((int) ((((long) ((((long) ((((long) ((((long) (local_h)) & 0xffffffffL) + (((long) (call_ucSigma1)) & 0xffffffffL))) & 0x1ffffffffL) + (((long) (call_Ch)) & 0xffffffffL))) & 0x3ffffffffL) + (((long) (k_l)) & 0xffffffffL))) & 0x7ffffffffL) + (((long) (local_W)) & 0xffffffffL)) & 0xffffffff); // (line 0)
 				local_a = a; // (line 45)
 				call_ucSigma0 = ucSigma0(local_a); // (line 45)
 				local_a0 = a; // (line 45)
 				local_b = b; // (line 45)
 				local_c = c; // (line 45)
 				call_Maj = Maj(local_a0, local_b, local_c); // (line 45)
-				T2 = ((int) ((((long) (call_ucSigma0)) & 0xffffffffL) + (((long) (call_Maj)) & 0xffffffffL)) & 0xffffffff); // (line 0)
+				T2_l = ((int) ((((long) (call_ucSigma0)) & 0xffffffffL) + (((long) (call_Maj)) & 0xffffffffL)) & 0xffffffff); // (line 0)
 				local_g0 = g; // (line 46)
 				h = local_g0; // (line 46)
 				local_f0 = f; // (line 47)
@@ -213,14 +213,14 @@ final public class SHA256_step2 implements Entity {
 				local_e1 = e; // (line 48)
 				f = local_e1; // (line 48)
 				local_d = d; // (line 49)
-				e = ((int) ((((long) (local_d)) & 0xffffffffL) + (((long) (T1)) & 0xffffffffL)) & 0xffffffff); // (line 49)
+				e = ((int) ((((long) (local_d)) & 0xffffffffL) + (((long) (T1_l)) & 0xffffffffL)) & 0xffffffff); // (line 49)
 				local_c0 = c; // (line 50)
 				d = local_c0; // (line 50)
 				local_b0 = b; // (line 51)
 				c = local_b0; // (line 51)
 				local_a1 = a; // (line 52)
 				b = local_a1; // (line 52)
-				a = ((int) ((((long) (T1)) & 0xffffffffL) + (((long) (T2)) & 0xffffffffL)) & 0xffffffff); // (line 53)
+				a = ((int) ((((long) (T1_l)) & 0xffffffffL) + (((long) (T2_l)) & 0xffffffffL)) & 0xffffffff); // (line 53)
 				local_t0 = t; // (line 0)
 				t = ((((local_t0) & 0x7f) + 0x1) & 0x7f); // (line 41)
 			

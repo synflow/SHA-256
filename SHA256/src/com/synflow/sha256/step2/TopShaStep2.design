@@ -347,7 +347,7 @@
       <clocks>clock</clocks>
       <source href="CounterT.cf#/"/>
     </vertices>
-    <vertices xsi:type="com.synflow.core.model:Reference" label="rom" incoming="/1/@edges.5" outgoing="/1/@edges.6" className="com.synflow.rom.ROM">
+    <vertices xsi:type="com.synflow.core.model:Reference" label="rom" incoming="/1/@edges.5" outgoing="/1/@edges.6" className="com.synflow.mem.ROM">
       <arguments xsi:type="net.sf.orcc.ir:ExprInt" value="32">
         <type xsi:type="net.sf.orcc.ir:TypeUint" size="6"/>
       </arguments>
