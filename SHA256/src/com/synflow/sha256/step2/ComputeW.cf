@@ -1,32 +1,34 @@
+package com.synflow.sha256.step2;
 /*
  * Copyright (c) 2013 Matthieu
  * All rights reserved.
  */
-import SHACommon.{addr_t, lcSigma0, lcSigma1};
+import com.synflow.sha256.SHACommon.*;
 
-/*
- * Input and output ports
- */
-port in bool start, u32 msg, out sync W;
+task ComputeW {
+	port in bool start, u32 msg, out sync W;
 
-u32 words[16];
-addr_t t;
+	u32 words[16];
+	addr_t t;
 
-/**
+	/**
  * Task
  */
-void main() {
-	while (!start.read) {}
-	
-	u32 m = msg.read;
-	u32 temp = (t < 16) ? m : lcSigma1(words[1]) + words[6] + lcSigma0(words[14]) + words[15];
-	print("W[", t, "] = ", temp);
-	W.write(temp);
-	t++;
+	void run() {
+		while (!start.read) {
+		}
 
-	u5 i;
-	for (i = 0; i < 15; i++) {
-		words[15 - i] = words[14 - i];
+		u32 m = msg.read;
+		u32 temp = (t < 16) ? m : lcSigma1(words[1]) + words[6] + lcSigma0(words[14]) + words[15];
+		print("W[", t, "] = ", temp);
+		W.write(temp);
+		t++;
+
+		u5 i;
+		for (i = 0; i < 15; i++) {
+			words[15 - i] = words[14 - i];
+		}
+		words[0] = temp;
 	}
-	words[0] = temp;
+
 }

@@ -3,7 +3,7 @@
 -- Project    : SHA-256
 --
 -- File       : ComputeW.vhd
--- Author     : Matthieu
+-- Author     : Nicolas
 -- Standard   : VHDL'93
 --
 -------------------------------------------------------------------------------
@@ -30,8 +30,8 @@ entity ComputeW is
     reset_n  : in  std_logic;
                                           -- Actor I/Os
     start       : in std_logic;
-    msg       : in std_logic_vector(31 downto 0);
-    W       : out std_logic_vector(31 downto 0);
+    msg       : in std_logic_vector(32 - 1 downto 0);
+    W       : out std_logic_vector(32 - 1 downto 0);
     W_send  : out std_logic);
 end ComputeW;
 
@@ -42,30 +42,14 @@ architecture rtl_ComputeW of ComputeW is
   -----------------------------------------------------------------------------
   -- Signal(s) and Constant(s)
   -----------------------------------------------------------------------------
-  type words_type is array (0 to 15) of unsigned(31 downto 0);
+  type words_type is array (0 to 15) of unsigned(32 - 1 downto 0);
   signal words : words_type;
-  signal t : unsigned(5 downto 0);
+  signal t : unsigned(6 - 1 downto 0);
 
 
   -----------------------------------------------------------------------------
   -- Behavior
   -----------------------------------------------------------------------------
-  -- Scheduler of ComputeW_0_a (line 19)
-  impure function isSchedulable_ComputeW_0_a(start_in : std_logic) return std_logic is
-    variable local_start : std_logic;
-  begin
-    local_start := start_in;
-    return (not ((local_start)));
-  end function isSchedulable_ComputeW_0_a;
-  
-  -- Scheduler of ComputeW_0_b (line 20)
-  impure function isSchedulable_ComputeW_0_b(start_in : std_logic) return std_logic is
-    variable local_start : std_logic;
-  begin
-    local_start := start_in;
-    return (not ((not ((local_start)))));
-  end function isSchedulable_ComputeW_0_b;
-  
 
 begin
 
@@ -73,64 +57,53 @@ begin
   -- Synchronous process
   -----------------------------------------------------------------------------
   ComputeW_execute : process (reset_n, clock) is
-    variable m_l : unsigned(31 downto 0);
-    variable local_msg : unsigned(31 downto 0);
-    variable temp_l : unsigned(31 downto 0);
-    variable local_t : unsigned(5 downto 0);
-    variable tmp_if : unsigned(34 downto 0);
-    variable local_words : unsigned(31 downto 0);
-    variable call_lcSigma1 : unsigned(31 downto 0);
-    variable local_words0 : unsigned(31 downto 0);
-    variable local_words1 : unsigned(31 downto 0);
-    variable call_lcSigma0 : unsigned(31 downto 0);
-    variable local_words2 : unsigned(31 downto 0);
-    variable i_l : unsigned(4 downto 0);
-    variable local_words3 : unsigned(31 downto 0);
+    variable tmp_if_2 : unsigned( - 1 downto 0);
+    variable local_words_1 : unsigned(32 - 1 downto 0);
+    variable call_lcSigma1_1 : unsigned(32 - 1 downto 0);
+    variable local_words0_1 : unsigned(32 - 1 downto 0);
+    variable local_words1_1 : unsigned(32 - 1 downto 0);
+    variable call_lcSigma0_1 : unsigned(32 - 1 downto 0);
+    variable local_words2_1 : unsigned(32 - 1 downto 0);
+    variable local_words3_1 : unsigned(32 - 1 downto 0);
+    variable i_l_3 : unsigned(5 - 1 downto 0);
     variable start_in  : std_logic;
-    variable msg_in  : unsigned(31 downto 0);
-    variable W_out : unsigned(31 downto 0) :=  (others => '0');
+    variable msg_in  : unsigned(32 - 1 downto 0);
+    variable W_out : unsigned(32 - 1 downto 0) :=  (others => '0');
   begin
     if reset_n = '0' then
-      words <= (others => x"00000000");
-      t <= "000000";
+      words <= (others => 0);
+      t <= 0;
       W <= (others => '0');
       W_send <= '0';
     --
     elsif rising_edge(clock) then
       W_send <= '0';
       --
-      if to_boolean(isSchedulable_ComputeW_0_a(start)) then
-        -- Body of ComputeW_0_a (line 19)
-      elsif to_boolean(isSchedulable_ComputeW_0_b(start)) then
-        -- Body of ComputeW_0_b (line 20)
-        msg_in := unsigned(msg);
-        local_t := t;
-        local_msg := msg_in;
-        m_l := (local_msg);
-        if ((local_t) < "010000") then
-          tmp_if := resize(m_l, 35);
+      if to_boolean() then
+        -- Body of ComputeW_0_a (line 0)
+      elsif to_boolean() then
+        -- Body of ComputeW_0_b (line 21)
+        if (to_std_logic(t < 16)) then
+          tmp_if_2 := msg;
         else
-          local_words := words(to_integer(to_unsigned(1, 4)));
-          call_lcSigma1 := resize(lcSigma1((local_words)), 32);
-          local_words0 := words(to_integer(to_unsigned(6, 4)));
-          local_words1 := words(to_integer(to_unsigned(14, 4)));
-          call_lcSigma0 := resize(lcSigma0((local_words1)), 32);
-          local_words2 := words(to_integer(to_unsigned(15, 4)));
-          tmp_if := (resize(resize(resize(call_lcSigma1, 33) + resize(local_words0, 33), 34) + resize(call_lcSigma0, 34), 35) + resize(local_words2, 35));
+          local_words_1 := words(to_integer(to_unsigned(1, 4)));
+          call_lcSigma1_1 := resize(Ch(local_words_1), com.synflow.models.ir.impl.ExprIntImpl@4a39f37a (value: 32));
+          local_words0_1 := words(to_integer(to_unsigned(6, 4)));
+          local_words1_1 := words(to_integer(to_unsigned(14, 4)));
+          call_lcSigma0_1 := resize(Maj(local_words1_1), com.synflow.models.ir.impl.ExprIntImpl@229ff4a8 (value: 32));
+          local_words2_1 := words(to_integer(to_unsigned(15, 4)));
+          tmp_if_2 := call_lcSigma1_1 + local_words0_1 + call_lcSigma0_1 + local_words2_1;
         end if;
-        temp_l := resize(tmp_if, 32);
-        write(output, "W[" & to_hstring_93(to_bitvector(std_logic_vector((local_t)))) & "] = " & to_hstring_93(to_bitvector(std_logic_vector((temp_l)))) & LF);
-        W_out := (temp_l);
-        local_t := resize(resize(local_t, 7) + "0000001", 6);
-        i_l := "00000";
-        while ((i_l) < "01111") loop
-          local_words3 := words(to_integer(resize("001110" - resize(i_l, 6), 4)));
-          words(to_integer(resize("001111" - resize(i_l, 6), 4)))  <= (local_words3);
-          i_l := resize(resize(i_l, 6) + "000001", 5);
+        write(output, "W[" & to_hstring_93(to_bitvector(std_logic_vector(t))) & "] = " & to_hstring_93(to_bitvector(std_logic_vector(tmp_if_2))) & LF);
+        W <= tmp_if_2;
+        i_l_3 := 0;
+        while (to_std_logic(i_l_3 < 15)) loop
+          local_words3_1 := words(to_integer(14 - i_l_3));
+          words(to_integer(15 - i_l_3))  <= local_words3_1;
+          i_l_3 := i_l_3 + 1;
         end loop;
-        words(to_integer(to_unsigned(0, 4)))  <= (temp_l);
-        t <= (local_t);
-        W   <= std_logic_vector(W_out);
+        words(to_integer(to_unsigned(0, 4)))  <= tmp_if_2;
+        t <= t + 1;
         W_send <= '1';
       end if;
     end if;

@@ -3,7 +3,7 @@
 -- Project    : SHA-256
 -------------------------------------------------------------------------------
 -- File       : SHACommon.vhd
--- Author     : Matthieu
+-- Author     : Nicolas
 -- Standard   : VHDL'93
 -------------------------------------------------------------------------------
 -- Copyright (c) 2013
@@ -47,32 +47,32 @@ package body SHACommon is
   ---------------------------------------------------------------------------
   impure function Ch(x : unsigned; y : unsigned; z : unsigned) return unsigned is
   begin
-    return (((x) and (y)) xor ((not ((x))) and (z)));
+    return x and y xor not (x) and z;
   end Ch;
   
   impure function Maj(x : unsigned; y : unsigned; z : unsigned) return unsigned is
   begin
-    return ((((x) and (y)) xor ((x) and (z))) xor ((y) and (z)));
+    return x and y xor x and z xor y and z;
   end Maj;
   
   impure function lcSigma0(x : unsigned) return unsigned is
   begin
-    return resize(((resize(x(31 downto 7), 57) or ((x & "0000000000000000000000000"))) xor resize(resize(x(31 downto 18), 46) or ((x & "00000000000000")), 57)) xor resize(x(31 downto 3), 57), 32);
+    return x(com.synflow.models.ir.impl.ExprIntImpl@459ae9f6 (value: 32) - 1 downto 7) or (x & "0000000000000000000000000") xor x(com.synflow.models.ir.impl.ExprIntImpl@459ae9f6 (value: 32) - 1 downto 18) or (x & "00000000000000") xor x(com.synflow.models.ir.impl.ExprIntImpl@459ae9f6 (value: 32) - 1 downto 3);
   end lcSigma0;
   
   impure function lcSigma1(x : unsigned) return unsigned is
   begin
-    return resize(((resize(x(31 downto 17), 47) or ((x & "000000000000000"))) xor resize(resize(x(31 downto 19), 45) or ((x & "0000000000000")), 47)) xor resize(x(31 downto 10), 47), 32);
+    return x(com.synflow.models.ir.impl.ExprIntImpl@3d76392d (value: 32) - 1 downto 17) or (x & "000000000000000") xor x(com.synflow.models.ir.impl.ExprIntImpl@3d76392d (value: 32) - 1 downto 19) or (x & "0000000000000") xor x(com.synflow.models.ir.impl.ExprIntImpl@3d76392d (value: 32) - 1 downto 10);
   end lcSigma1;
   
   impure function ucSigma0(x : unsigned) return unsigned is
   begin
-    return resize(((resize(x(31 downto 2), 62) or ((x & "000000000000000000000000000000"))) xor resize(resize(x(31 downto 13), 51) or ((x & "0000000000000000000")), 62)) xor resize(resize(x(31 downto 22), 42) or ((x & "0000000000")), 62), 32);
+    return x(com.synflow.models.ir.impl.ExprIntImpl@1ca3d8e1 (value: 32) - 1 downto 2) or (x & "000000000000000000000000000000") xor x(com.synflow.models.ir.impl.ExprIntImpl@1ca3d8e1 (value: 32) - 1 downto 13) or (x & "0000000000000000000") xor x(com.synflow.models.ir.impl.ExprIntImpl@1ca3d8e1 (value: 32) - 1 downto 22) or (x & "0000000000");
   end ucSigma0;
   
   impure function ucSigma1(x : unsigned) return unsigned is
   begin
-    return resize(((resize(x(31 downto 6), 58) or ((x & "00000000000000000000000000"))) xor resize(resize(x(31 downto 11), 53) or ((x & "000000000000000000000")), 58)) xor resize(resize(x(31 downto 25), 39) or ((x & "0000000")), 58), 32);
+    return x(com.synflow.models.ir.impl.ExprIntImpl@48f3aa77 (value: 32) - 1 downto 6) or (x & "00000000000000000000000000") xor x(com.synflow.models.ir.impl.ExprIntImpl@48f3aa77 (value: 32) - 1 downto 11) or (x & "000000000000000000000") xor x(com.synflow.models.ir.impl.ExprIntImpl@48f3aa77 (value: 32) - 1 downto 25) or (x & "0000000");
   end ucSigma1;
   
 
