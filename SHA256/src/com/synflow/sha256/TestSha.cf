@@ -1,0 +1,42 @@
+package com.synflow.sha256;
+/*
+ * Copyright (c) 2013 Nicolas
+ * All rights reserved.
+ */
+network TestSha {
+	source = new task {
+		port out sync u32 stimulus;
+
+		void init() {
+			stimulus.write(0x61626380);
+			u6 i;
+			for (i = 0; i < 14; i++) {
+				stimulus.write(0);
+			}
+
+			stimulus.write(0x18);
+		}
+
+		void run() {
+		}
+	};
+
+	SHA256 = new com.synflow.sha256.SHA256 ();
+
+	expected = new task {
+		port in sync u256 hash;
+
+		void init() {
+			u256 dut_hash = hash.read;
+			print("read hash from dut: ", dut_hash);
+			assert(dut_hash == 0xBA7816BF_8F01CFEA_414140DE_5DAE2223_B00361A3_96177A9C_B410FF61_F20015AD);
+			print("assertion passed");
+		}
+
+		void run() {
+		}
+	};
+	
+}
+
+
