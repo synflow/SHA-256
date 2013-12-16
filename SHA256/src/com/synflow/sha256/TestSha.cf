@@ -48,12 +48,11 @@ network TestSha {
 	};
 
 	SHA256 = new com.synflow.sha256.SHA256 ();
+	SHA256.reads(source.stimulus);
 
 	expected = new task {
-		port in sync u256 hash;
-
 		void init() {
-			u256 dut_hash = hash.read;
+			u256 dut_hash = SHA256.hash.read;
 			print("read hash from dut: ", dut_hash);
 			assert(dut_hash == 0xBA7816BF_8F01CFEA_414140DE_5DAE2223_B00361A3_96177A9C_B410FF61_F20015AD);
 			print("assertion passed");
@@ -62,7 +61,6 @@ network TestSha {
 		void run() {
 		}
 	};
-	
 }
 
 

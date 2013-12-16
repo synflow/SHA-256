@@ -1,5 +1,7 @@
 package com.synflow.sha256.step2;
 
+import com.synflow.sha256.SHACommon.*;
+
 /*
  * Copyright (c) 2012 - 2013, Matthieu Wipliez - Synflow SAS
  * All rights reserved.
@@ -29,7 +31,6 @@ package com.synflow.sha256.step2;
  * SUCH DAMAGE.
  */
  
-import com.synflow.sha256.SHACommon.*;
 
 task SHA256_step2 {
 	port in sync u32 W, Kin, out sync u256 hash;
