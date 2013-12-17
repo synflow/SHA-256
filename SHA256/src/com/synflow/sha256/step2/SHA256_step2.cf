@@ -66,7 +66,7 @@ task SHA256_step2 {
 
 		for (t = 0; t < 64; t++) {
 			u32 k = Kin.read;
-			print("K[", t, "] = ", k);
+			//print("K[", t, "] = ", k);
 			u32 T1 = h + ucSigma1(e) + Ch(e, f, g) + k + W.read;
 			u32 T2 = ucSigma0(a) + Maj(a, b, c);
 			h = g;
@@ -90,14 +90,14 @@ task SHA256_step2 {
 
 		fence;
 
-		print("H_i[0] = ", H_i[0]);
-		print("H_i[1] = ", H_i[1]);
-		print("H_i[2] = ", H_i[2]);
-		print("H_i[3] = ", H_i[3]);
-		print("H_i[4] = ", H_i[4]);
-		print("H_i[5] = ", H_i[5]);
-		print("H_i[6] = ", H_i[6]);
-		print("H_i[7] = ", H_i[7]);
+		//print("H_i[0] = ", H_i[0]);
+		//print("H_i[1] = ", H_i[1]);
+		//print("H_i[2] = ", H_i[2]);
+		//print("H_i[3] = ", H_i[3]);
+		//print("H_i[4] = ", H_i[4]);
+		//print("H_i[5] = ", H_i[5]);
+		//print("H_i[6] = ", H_i[6]);
+		//print("H_i[7] = ", H_i[7]);
 
 		hash.write(H_i[0] << 224 | H_i[1] << 192 | H_i[2] << 160 | H_i[3] << 128 | H_i[4] << 96 | H_i[5] << 64 | H_i[6] << 32
 		| H_i[7]);
