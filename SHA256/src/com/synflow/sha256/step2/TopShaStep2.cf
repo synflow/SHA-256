@@ -36,11 +36,11 @@ network TopShaStep2 {
 	CounterT = new task {
 		port out bool start, u32 msg, addr_t t_o;
 		// State variables
-		u7 t = 1;
+		u7 t;
 
 		// task
 		void run() {
-			if (t <= 16) {
+			if (msg_i.available) {
 				msg.write(msg_i.read);
 				start.write(true);
 				t_o.write(t - 1);
@@ -95,7 +95,7 @@ network TopShaStep2 {
 		0xbef9a3f7, 0xc67178f2 };
 
 		void run() {
-			dout.write(K[CounterT.t_o.read]);
+			dout.write(K[CounterT.t_o.read & 0x3f]);
 		}
 	};
 
