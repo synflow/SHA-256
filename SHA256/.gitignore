@@ -4,3 +4,6 @@
 /projects
 /sim
 /testbench
+/java-gen
+/verilog-gen
+/src-gen
