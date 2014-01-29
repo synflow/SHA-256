@@ -55,7 +55,7 @@ task SHA256_step1 {
 		}
 
 		for (; t < 64; t++) {
-			W[t] = lcSigma1(W[t - 2]) + W[t - 7] + lcSigma0(W[t - 15]) + W[t - 16];
+			W[t] = (u32) (lcSigma1(W[t - 2]) + W[t - 7] + lcSigma0(W[t - 15]) + W[t - 16]);
 		}
 
 		H_i[0] = 0x6a09e667;
@@ -81,17 +81,17 @@ task SHA256_step1 {
 		Kaddr.write(1);
 
 		for (t = 0; t < 64; t++) {
-			u32 T1 = h + ucSigma1(e) + Ch(e, f, g) + Kin.read + W[t];
-			u32 T2 = ucSigma0(a) + Maj(a, b, c);
+			u32 T1 = (u32) (h + ucSigma1(e) + Ch(e, f, g) + Kin.read + W[t]);
+			u32 T2 = (u32) (ucSigma0(a) + Maj(a, b, c));
 			h = g;
 			g = f;
 			f = e;
-			e = d + T1;
+			e = (u32) (d + T1);
 			d = c;
 			c = b;
 			b = a;
-			a = T1 + T2;
-			Kaddr.write(t + 2);
+			a = (u32) (T1 + T2);
+			Kaddr.write((u6) (t + 2));
 		}
 
 		H_i[0] += a;

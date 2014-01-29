@@ -67,16 +67,16 @@ task SHA256_step2 {
 		for (t = 0; t < 64; t++) {
 			u32 k = Kin.read;
 			//print("K[", t, "] = ", k);
-			u32 T1 = h + ucSigma1(e) + Ch(e, f, g) + k + W.read;
-			u32 T2 = ucSigma0(a) + Maj(a, b, c);
+			u32 T1 = (u32) (h + ucSigma1(e) + Ch(e, f, g) + k + W.read);
+			u32 T2 = (u32) (ucSigma0(a) + Maj(a, b, c));
 			h = g;
 			g = f;
 			f = e;
-			e = d + T1;
+			e = (u32) (d + T1);
 			d = c;
 			c = b;
 			b = a;
-			a = T1 + T2;
+			a = (u32) (T1 + T2);
 		}
 
 		H_i[0] += a;
