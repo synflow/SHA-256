@@ -43,10 +43,10 @@ network TopShaStep2 {
 			if (msg_i.available) {
 				msg.write(msg_i.read);
 				start.write(true);
-				t_o.write(t - 1);
+				t_o.write((u6) (t - 1));
 				t++;
 			} else if (t <= 64) {
-				t_o.write(t - 1);
+				t_o.write((u6) (t - 1));
 				t++;
 			} else {
 				t = 0;
@@ -67,7 +67,7 @@ network TopShaStep2 {
 			}
 
 			u32 m = CounterT.msg.read;
-			u32 temp = (t < 16) ? m : lcSigma1(words[1]) + words[6] + lcSigma0(words[14]) + words[15];
+			u32 temp = (t < 16) ? m : (u32) (lcSigma1(words[1]) + words[6] + lcSigma0(words[14]) + words[15]);
 			//print("W[", t, "] = ", temp);
 			W.write(temp);
 			t++;
