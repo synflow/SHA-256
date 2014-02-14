@@ -33,7 +33,7 @@ import com.synflow.sha256.SHACommon.*;
 network TopShaStep2 {
 	port in sync u32 msg_i, out sync u256 hash;
 
-	CounterT = new task {
+	counterT = new task {
 		port out bool start, u32 msg, addr_t t_o;
 		// State variables
 		u7 t;
@@ -55,7 +55,7 @@ network TopShaStep2 {
 		}
 	};
 
-	ComputeW = new task {
+	computeW = new task {
 		port out sync u32 W;
 		// State variables
 		u32 words[16];
@@ -63,10 +63,10 @@ network TopShaStep2 {
 
 		// task
 		void run() {
-			while (!CounterT.start.read) {
+			while (!counterT.start.read) {
 			}
 
-			u32 m = CounterT.msg.read;
+			u32 m = counterT.msg.read;
 			u32 temp = (t < 16) ? m : (u32) (lcSigma1(words[1]) + words[6] + lcSigma0(words[14]) + words[15]);
 			//print("W[", t, "] = ", temp);
 			W.write(temp);
@@ -95,11 +95,11 @@ network TopShaStep2 {
 		0xbef9a3f7, 0xc67178f2 };
 
 		void run() {
-			dout.write(K[CounterT.t_o.read & 0x3f]);
+			dout.write(K[counterT.t_o.read & 0x3f]);
 		}
 	};
 
-	SHA256_step2 = new com.synflow.sha256.step2.SHA256_step2();
-	SHA256_step2.reads(ComputeW.W, rom.dout);
-	SHA256_step2.writes(hash);
+	sha = new com.synflow.sha256.step2.SHA256_step2();
+	sha.reads(computeW.W, rom.dout);
+	sha.writes(hash);
 }

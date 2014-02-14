@@ -47,12 +47,12 @@ network TestShaStep2 {
 		}
 	};
 
-	TopShaStep2 = new com.synflow.sha256.step2.TopShaStep2 ();
-	TopShaStep2.reads(source.stimulus);
+	top_sha = new com.synflow.sha256.step2.TopShaStep2 ();
+	top_sha.reads(source.stimulus);
 
 	expected = new task {
 		void init() {
-			u256 dut_hash = TopShaStep2.hash.read;
+			u256 dut_hash = top_sha.hash.read;
 			print("read hash from dut: ", dut_hash);
 			assert(dut_hash == 0xBA7816BF_8F01CFEA_414140DE_5DAE2223_B00361A3_96177A9C_B410FF61_F20015AD);
 			print("assertion passed");

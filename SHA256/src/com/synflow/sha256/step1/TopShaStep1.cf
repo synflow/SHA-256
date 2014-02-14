@@ -33,7 +33,7 @@ import com.synflow.sha256.SHACommon.*;
 network TopShaStep1() {
 	port in u32 msg, out u256 hash;
 
-	sHA256_step1 = new com.synflow.sha256.SHA256_step1;
+	sha = new com.synflow.sha256.SHA256_step1;
 	rom = new task {
 	// This is a ROM
 		properties { reset : null }
@@ -49,10 +49,10 @@ network TopShaStep1() {
 		0xbef9a3f7, 0xc67178f2 };
 
 		void run() {
-			dout.write(K[sHA256_step1.Kaddr.read & 0x3f]);
+			dout.write(K[sha.Kaddr.read & 0x3f]);
 		}
 	};
 
-	sHA256_step1.reads(msg, rom.dout);
-	sHA256_step1.writes(hash);
+	sha.reads(msg, rom.dout);
+	sha.writes(hash);
 }
