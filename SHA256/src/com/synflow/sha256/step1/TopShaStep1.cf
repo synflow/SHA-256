@@ -31,7 +31,7 @@ import com.synflow.sha256.SHACommon.*;
  * SUCH DAMAGE.
  */
 network TopShaStep1() {
-	port in u32 msg, out u256 hash;
+	port in sync u32 msg, out sync u256 hash;
 
 	sha = new com.synflow.sha256.SHA256_step1;
 	rom = new task {
