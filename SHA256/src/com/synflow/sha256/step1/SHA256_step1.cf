@@ -1,7 +1,5 @@
-package com.synflow.sha256;
-
 /*
- * Copyright (c) 2012 - 2013, Matthieu Wipliez - Synflow SAS
+ * Copyright (c) 2013-2014, Synflow SAS
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,14 +26,28 @@ package com.synflow.sha256;
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
- 
-import com.synflow.sha256.SHACommon.*;
+package com.synflow.sha256.step1;
 
-/*
- * Input and output ports
+/**
+ * This task is a refinement over the behavioral implementation by using a ROM to
+ * lookup the values of K. This is mostly for educational value, because the limiting
+ * factor for a high-performance hardware implementation is the big W array:
+ * it is 64x32 registers and a lot of muxes. We optimize it in step 2.
+ * 
+ * @author Matthieu Wipliez
  */
 task SHA256_step1 {
-	port in sync u32 msg, Kin, out sync u256 hash, addr_t Kaddr;
+	import com.synflow.sha256.SHACommon.*;
+
+	/**
+	 * msg is the message received, Kin is contents from the K ROM
+	 */
+	in sync u32 msg, Kin;
+	
+	/**
+	 * hash is the hash produced, Kaddr the address to send the ROM
+	 */
+	out sync u256 hash, addr_t Kaddr;
 
 	u32 H_i[8];
 
@@ -45,8 +57,9 @@ task SHA256_step1 {
 	u32 W[64];
 
 	/**
- * Task
- */
+	 * Mostly the same as the behavioral implementation, except that we write
+	 * an address to Kaddr a cycle in advance.
+	 */
 	void run() {
 		for (t = 0; t < 16; t++) {
 			u32 m = msg.read;

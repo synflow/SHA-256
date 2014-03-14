@@ -1,9 +1,5 @@
-package com.synflow.sha256.step1;
-
-import com.synflow.sha256.SHACommon.*;
-
 /*
- * Copyright (c) 2012 - 2013, Matthieu Wipliez - Synflow SAS
+ * Copyright (c) 2013-2014, Synflow SAS
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,14 +26,27 @@ import com.synflow.sha256.SHACommon.*;
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-network TopShaStep1() {
-	port in sync u32 msg, out sync u256 hash;
+package com.synflow.sha256.step1;
 
-	sha = new com.synflow.sha256.SHA256_step1;
+/**
+ * This network is the top for the step 1 implementation of SHA-256.
+ * 
+ * @author Matthieu Wipliez
+ * @author Nicolas Siret
+ */
+network TopShaStep1() {
+	import com.synflow.sha256.SHACommon.*;
+
+	in sync u32 msg; out sync u256 hash;
+
+	sha = new com.synflow.sha256.step1.SHA256_step1;
+
+	/**
+	 * This declares a synchronous ROM (no reset)
+	 */
 	rom = new task {
-	// This is a ROM
-		properties { reset : null }
-		port out u32 dout;
+		properties { reset: null }
+		out u32 dout;
 
 		const u32 K[64] = { 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
 		0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1,
@@ -53,6 +62,41 @@ network TopShaStep1() {
 		}
 	};
 
+	// connections between sha, the rom, and output port
 	sha.reads(msg, rom.dout);
 	sha.writes(hash);
+}
+
+/**
+ * This network is the testbench for step 1's SHA256 network.
+ * 
+ * @author Matthieu Wipliez
+ * @author Nicolas Siret
+ */
+network TestShaStep1() {
+	source = new task {
+		out sync u32 stimulus;
+
+		void init() {
+			stimulus.write(0x61626380);
+			u6 i;
+			for (i = 0; i < 14; i++) {
+				stimulus.write(0);
+			}
+
+			stimulus.write(0x18);
+		}
+	};
+
+	expected = new task {
+		void init() {
+			u256 dut_hash = topShaStep1.hash.read;
+			print("read hash from dut: ", dut_hash);
+			assert(dut_hash == 0xBA7816BF_8F01CFEA_414140DE_5DAE2223_B00361A3_96177A9C_B410FF61_F20015AD);
+			print("assertion passed");
+		}
+	};
+
+	topShaStep1 = new TopShaStep1;
+	topShaStep1.reads(source.stimulus);
 }

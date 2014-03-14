@@ -1,9 +1,5 @@
-package com.synflow.sha256.step2;
-
-import com.synflow.sha256.SHACommon.*;
-
 /*
- * Copyright (c) 2012 - 2013, Matthieu Wipliez - Synflow SAS
+ * Copyright (c) 2013-2014, Synflow SAS
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,19 +26,24 @@ import com.synflow.sha256.SHACommon.*;
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
- 
+package com.synflow.sha256.step2;
 
+/**
+ * This task is part of an optimized implementation of SHA-256. The W array is
+ * computed on-the-fly by two separate tasks, see TopShaStep2.
+ * 
+ * @author Matthieu Wipliez
+ */
 task SHA256_step2 {
-	port in sync u32 W, Kin, out sync u256 hash;
+	import com.synflow.sha256.SHACommon.*;
+
+	in sync u32 W, Kin; out sync u256 hash;
 
 	u32 H_i[8];
 
 	u32 a, b, c, d, e, f, g, h;
 	u7 t;
 
-	/**
- * Task
- */
 	void run() {
 		H_i[0] = 0x6a09e667;
 		H_i[1] = 0xbb67ae85;
