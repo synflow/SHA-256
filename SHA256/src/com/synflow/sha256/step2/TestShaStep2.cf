@@ -38,7 +38,7 @@ network TestShaStep2 {
 	source = new task {
 		out sync u32 stimulus;
 
-		void init() {
+		void setup() {
 			stimulus.write(0x61626380);
 			u6 i;
 			for (i = 0; i < 14; i++) {
@@ -53,14 +53,11 @@ network TestShaStep2 {
 	top_sha.reads(source.stimulus);
 
 	expected = new task {
-		void init() {
+		void setup() {
 			u256 dut_hash = top_sha.hash.read;
 			print("read hash from dut: ", dut_hash);
 			assert(dut_hash == 0xBA7816BF_8F01CFEA_414140DE_5DAE2223_B00361A3_96177A9C_B410FF61_F20015AD);
 			print("assertion passed");
-		}
-
-		void run() {
 		}
 	};
 

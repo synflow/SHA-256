@@ -60,7 +60,7 @@ task SHA256_step1 {
 	 * Mostly the same as the behavioral implementation, except that we write
 	 * an address to Kaddr a cycle in advance.
 	 */
-	void run() {
+	void loop() {
 		for (t = 0; t < 16; t++) {
 			u32 m = msg.read;
 			W[t] = m;

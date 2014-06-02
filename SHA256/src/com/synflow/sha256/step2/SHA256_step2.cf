@@ -44,7 +44,7 @@ task SHA256_step2 {
 	u32 a, b, c, d, e, f, g, h;
 	u7 t;
 
-	void run() {
+	void loop() {
 		H_i[0] = 0x6a09e667;
 		H_i[1] = 0xbb67ae85;
 		H_i[2] = 0x3c6ef372;
