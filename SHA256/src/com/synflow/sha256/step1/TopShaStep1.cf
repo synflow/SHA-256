@@ -58,7 +58,7 @@ network TopShaStep1 {
 		0xbef9a3f7, 0xc67178f2 ];
 
 		void loop() {
-			dout.write(K[sha.Kaddr.read & 0x3f]);
+			dout.write(K[sha.kAddr.read & 0x3f]);
 		}
 	};
 

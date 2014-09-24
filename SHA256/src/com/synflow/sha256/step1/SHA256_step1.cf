@@ -42,12 +42,12 @@ task SHA256_step1 {
 	/**
 	 * msg is the message received, Kin is contents from the K ROM
 	 */
-	in sync u32 msg, Kin;
+	in sync u32 msg, kIn;
 	
 	/**
 	 * hash is the hash produced, Kaddr the address to send the ROM
 	 */
-	out sync u256 hash, addr_t Kaddr;
+	out sync u256 hash, addr_t kAddr;
 
 	u32 H_i[8];
 
@@ -79,7 +79,7 @@ task SHA256_step1 {
 		H_i[5] = 0x9b05688c;
 		H_i[6] = 0x1f83d9ab;
 		H_i[7] = 0x5be0cd19;
-		Kaddr.write(0);
+		kAddr.write(0);
 
 		fence;
 
@@ -91,10 +91,10 @@ task SHA256_step1 {
 		f = H_i[5];
 		g = H_i[6];
 		h = H_i[7];
-		Kaddr.write(1);
+		kAddr.write(1);
 
 		for (t = 0; t < 64; t++) {
-			u32 T1 = (u32) (h + ucSigma1(e) + Ch(e, f, g) + Kin.read + W[t]);
+			u32 T1 = (u32) (h + ucSigma1(e) + Ch(e, f, g) + kIn.read + W[t]);
 			u32 T2 = (u32) (ucSigma0(a) + Maj(a, b, c));
 			h = g;
 			g = f;
@@ -104,7 +104,7 @@ task SHA256_step1 {
 			c = b;
 			b = a;
 			a = (u32) (T1 + T2);
-			Kaddr.write((u6) (t + 2));
+			kAddr.write((u6) (t + 2));
 		}
 
 		H_i[0] += a;

@@ -80,7 +80,7 @@ network TopShaStep2 {
 	 * 
 	 */
 	computeW = new task {
-		out sync u32 W;
+		out sync u32 outW;
 
 		// State variables
 		u32 words[16];
@@ -93,7 +93,7 @@ network TopShaStep2 {
 			u32 m = counterT.msg.read;
 			u32 temp = (t < 16) ? m : (u32) (lcSigma1(words[1]) + words[6] + lcSigma0(words[14]) + words[15]);
 			//print("W[", t, "] = ", temp);
-			W.write(temp);
+			outW.write(temp);
 			t++;
 
 			u5 i;
@@ -128,6 +128,6 @@ network TopShaStep2 {
 	};
 
 	sha = new com.synflow.sha256.step2.SHA256_step2();
-	sha.reads(computeW.W, rom.dout);
+	sha.reads(computeW.outW, rom.dout);
 	sha.writes(hash);
 }

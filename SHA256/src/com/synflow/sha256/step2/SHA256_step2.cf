@@ -37,7 +37,7 @@ package com.synflow.sha256.step2;
 task SHA256_step2 {
 	import com.synflow.sha256.SHACommon.*;
 
-	in sync u32 W, Kin; out sync u256 hash;
+	in sync u32 w, kin; out sync u256 hash;
 
 	u32 H_i[8];
 
@@ -66,9 +66,9 @@ task SHA256_step2 {
 		h = H_i[7];
 
 		for (t = 0; t < 64; t++) {
-			u32 k = Kin.read;
+			u32 k = kin.read;
 			//print("K[", t, "] = ", k);
-			u32 T1 = (u32) (h + ucSigma1(e) + Ch(e, f, g) + k + W.read);
+			u32 T1 = (u32) (h + ucSigma1(e) + Ch(e, f, g) + k + w.read);
 			u32 T2 = (u32) (ucSigma0(a) + Maj(a, b, c));
 			h = g;
 			g = f;
