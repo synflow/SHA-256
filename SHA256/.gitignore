@@ -1,9 +1,7 @@
 /.ir
-/.settings
 /bin
 /projects
 /sim
 /testbench
-/java-gen
+/vhdl-gen
 /verilog-gen
-/src-gen
