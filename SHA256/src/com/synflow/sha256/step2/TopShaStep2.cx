@@ -96,8 +96,7 @@ network TopShaStep2 {
 			outW.write(temp);
 			t++;
 
-			u5 i;
-			for (i = 0; i < 15; i++) {
+			for (u5 i = 0; i < 15; i++) {
 				words[15 - i] = words[14 - i];
 			}
 			words[0] = temp;

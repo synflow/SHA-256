@@ -42,7 +42,6 @@ task SHA256_step2 {
 	u32 H_i[8];
 
 	u32 a, b, c, d, e, f, g, h;
-	u7 t;
 
 	void loop() {
 		H_i[0] = 0x6a09e667;
@@ -65,7 +64,7 @@ task SHA256_step2 {
 		g = H_i[6];
 		h = H_i[7];
 
-		for (t = 0; t < 64; t++) {
+		for (u7 t = 0; t < 64; t++) {
 			u32 k = kin.read;
 			//print("K[", t, "] = ", k);
 			u32 T1 = (u32) (h + ucSigma1(e) + Ch(e, f, g) + k + w.read);

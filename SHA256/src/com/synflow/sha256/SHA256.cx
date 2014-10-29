@@ -139,8 +139,7 @@ network TestSha {
 
 		void setup() {
 			stimulus.write(0x61626380);
-			u6 i;
-			for (i = 0; i < 14; i++) {
+			for (u6 i = 0; i < 14; i++) {
 				stimulus.write(0);
 			}
 
