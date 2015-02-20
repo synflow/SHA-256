@@ -59,7 +59,7 @@ network TopShaStep2 {
 				start.write(true);
 				t_o.write((u6) (t - 1));
 				t++;
-			} else if (t <= 64) {
+			} else if (t >= 15 & t <= 64) {
 				t_o.write((u6) (t - 1));
 				t++;
 			} else {
