@@ -45,7 +45,7 @@ network TopShaStep2 {
 	counterT = new task {
 		out bool start, u32 msg, addr_t t_o;
 
-		u7 t;
+		addr_t t;
 
 		/**
 		 * This is just an elaborate counter written in a complicated way....
@@ -57,10 +57,10 @@ network TopShaStep2 {
 			if (msg_i.available) {
 				msg.write(msg_i.read);
 				start.write(true);
-				t_o.write((u6) (t - 1));
+				t_o.write(t);
 				t++;
-			} else if (t >= 15 & t <= 64) {
-				t_o.write((u6) (t - 1));
+			} else if (t >= 15 & t < 64) {
+				t_o.write(t);
 				t++;
 			} else {
 				t = 0;
