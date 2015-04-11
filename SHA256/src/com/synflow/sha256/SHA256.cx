@@ -75,8 +75,6 @@ task SHA256 {
 		H_i[6] = 0x1f83d9ab;
 		H_i[7] = 0x5be0cd19;
 
-		fence;
-
 		a = H_i[0];
 		b = H_i[1];
 		c = H_i[2];
@@ -107,8 +105,6 @@ task SHA256 {
 		H_i[5] += f;
 		H_i[6] += g;
 		H_i[7] += h;
-
-		fence;
 
 		print("H_i[0] = ", H_i[0]);
 		print("H_i[1] = ", H_i[1]);

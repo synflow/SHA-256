@@ -54,9 +54,6 @@ task SHA256_step2 {
 		H_i[6] = 0x1f83d9ab;
 		H_i[7] = 0x5be0cd19;
 
-		fence;
-
-		InitWorking : 
 		a = H_i[0];
 		b = H_i[1];
 		c = H_i[2];
@@ -82,6 +79,8 @@ task SHA256_step2 {
 			a = (u32) (T1 + T2);
 		}
 
+		ComputeHash:
+
 		H_i[0] += a;
 		H_i[1] += b;
 		H_i[2] += c;
@@ -91,16 +90,14 @@ task SHA256_step2 {
 		H_i[6] += g;
 		H_i[7] += h;
 
-		fence;
-		ComputeHash:
-		//print("H_i[0] = ", H_i[0]);
-		//print("H_i[1] = ", H_i[1]);
-		//print("H_i[2] = ", H_i[2]);
-		//print("H_i[3] = ", H_i[3]);
-		//print("H_i[4] = ", H_i[4]);
-		//print("H_i[5] = ", H_i[5]);
-		//print("H_i[6] = ", H_i[6]);
-		//print("H_i[7] = ", H_i[7]);
+		print("H_i[0] = ", H_i[0]);
+		print("H_i[1] = ", H_i[1]);
+		print("H_i[2] = ", H_i[2]);
+		print("H_i[3] = ", H_i[3]);
+		print("H_i[4] = ", H_i[4]);
+		print("H_i[5] = ", H_i[5]);
+		print("H_i[6] = ", H_i[6]);
+		print("H_i[7] = ", H_i[7]);
 
 		hash.write(H_i[0] << 224 | H_i[1] << 192 | H_i[2] << 160 | H_i[3] << 128 | H_i[4] << 96 | H_i[5] << 64 | H_i[6] << 32
 		| H_i[7]);
